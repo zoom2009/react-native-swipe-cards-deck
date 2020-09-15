@@ -304,3 +304,5 @@ Contact me if you have questions...
 - [ ] Unit testing
 - [ ] Fix dragY not working
 - [ ] useHooks instead
+- [ ] Convert class components to functional components
+- [ ] remove clamps dep
