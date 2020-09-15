@@ -140,7 +140,6 @@ export default class SwipeCards extends Component {
     onDragRelease: () => {},
     cardRemoved: (ix) => null,
     renderCard: (card) => null,
-    style: styles.container,
     dragY: true,
     smoothTransition: false,
   };
@@ -677,7 +676,7 @@ export default class SwipeCards extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, this.props.style]}>
         {this.props.stack ? this.renderStack() : this.renderCard()}
         {this.renderNope()}
         {this.renderMaybe()}
