@@ -2,7 +2,11 @@
 
 A swipping cards deck (as in Tinder). This project is compatible with React Native 0.62 & Expo projects (unlike others).
 
-A package based on [react-native-tinder-swipe-cards](https://github.com/meteor-factory/react-native-tinder-swipe-cards) unmaintained project but with bug fixes and performance imporvment using react's native driver.
+A package based on [react-native-tinder-swipe-cards](https://github.com/meteor-factory/react-native-tinder-swipe-cards) (unmaintained) project - with bug fixes and performance imporvment using react's native driver.
+
+I am planning in keeping this project alive for future react version and to expand it for better compatibility, design & performance.
+
+Issues & PRs are welcome (for PRs check PR section at the bottom)
 
 
 ![React Native Swipe Cards](https://github.com/meteor-factory/react-native-tinder-swipe-cards/raw/master/screenshots/swiper-cards.gif
