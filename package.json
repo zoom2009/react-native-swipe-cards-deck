@@ -25,6 +25,6 @@
   "homepage": "https://github.com/eyalyoli/react-native-swipe-cards-deck#readme",
   "dependencies": {
     "clamp": "^1.0.1",
-    "prop-types": "^15.6.0"
+    "prop-types": "^15.7.2"
   }
 }
