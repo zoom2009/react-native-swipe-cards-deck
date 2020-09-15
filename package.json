@@ -1,6 +1,6 @@
 {
-  "name": "react-native-swipe-cards",
-  "version": "0.1.1",
+  "name": "react-native-swipe-cards-deck",
+  "version": "0.2",
   "description": "Swipe cards for stylishly passing & failing a card",
   "main": "SwipeCards.js",
   "scripts": {
@@ -8,20 +8,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/meteor-factory/react-native-tinder-swipe-cards.git"
+    "url": "git+https://github.com/eyalyoli/react-native-swipe-cards-deck.git"
   },
   "keywords": [
     "react-native",
     "tinder",
     "cards",
-    "swipe"
+    "swipe",
+    "deck"
   ],
   "author": "meteor-factory",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/meteor-factory/react-native-tinder-swipe-cards/issues"
+    "url": "https://github.com/eyalyoli/react-native-swipe-cards-deck/issues"
   },
-  "homepage": "https://github.com/meteor-factory/react-native-tinder-swipe-cards#readme",
+  "homepage": "https://github.com/eyalyoli/react-native-swipe-cards-deck#readme",
   "dependencies": {
     "clamp": "^1.0.1",
     "prop-types": "^15.6.0"
