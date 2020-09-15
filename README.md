@@ -7,15 +7,11 @@ A [package](https://www.npmjs.com/package/react-native-swipe-cards) based on [@b
 )
 
 ## Quick Start
-1. `npm install --save react-native-swipe-cards`
-2. Create a module e.g. `SwipeCards.js`
-3. Import it `import SwipeCards from './SwipeCards.js'`
-4. Render it `<SwipeCards style={{flex: 1}} />`
+1. `npm install --save  eyalyoli/react-native-swipe-cards-deck `
+2. Import it `import SwipeCards from './SwipeCards.js'`
+4. Render it `<SwipeCards ... />`
 
 ```javascript
-// SwipeCards.js
-'use strict';
-
 import React, { Component } from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 
@@ -106,8 +102,6 @@ const styles = StyleSheet.create({
 
 ### More complex example
 ```javascript
-'use strict';
-
 import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 
