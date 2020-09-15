@@ -289,14 +289,18 @@ const styles = StyleSheet.create({
 
 *required
 
-### Todo (PRs welcome!)
-- [ ] Show next card underneath current card
-- [ ] Shadow when card is being dragged
-- [ ] Example with backend
-- [ ] Example with polaroids
-- [ ] Submit to repos
-- [x] renderYup
-- [x] renderNope
-- [ ] Testing
-- [ ] Add more args to `cardRemoved`?
-- [ ] `class extends` all components
+### PRs are welcome
+Just stick with the git standards and implement a good code.
+
+Please use branch prefix (hotfix/feature).
+
+Contact me if you have questions...
+
+### Todo
+- [ ] Bug fixes from prev. [project](https://github.com/meteor-factory/react-native-tinder-swipe-cards/issues)
+- [ ] Get ideas from [project](https://github.com/jonathanRinciari/React-Native-Swipeable-Cards)
+- [ ] New gif example
+- [ ] Manual testing to check if all prev. features work with new react native versions
+- [ ] Unit testing
+- [ ] Fix dragY not working
+- [ ] useHooks instead
