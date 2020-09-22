@@ -618,7 +618,6 @@ export default class SwipeCards extends Component {
 
 SwipeCards.propTypes = {
   cards: PropTypes.array,
-  cardKey: PropTypes.string,
   hasMaybeAction: PropTypes.bool,
   loop: PropTypes.bool,
   onLoop: PropTypes.func,
@@ -660,7 +659,6 @@ SwipeCards.propTypes = {
 
 SwipeCards.defaultProps = {
   cards: [],
-  cardKey: "key",
   hasMaybeAction: false,
   loop: false,
   onLoop: () => null,
