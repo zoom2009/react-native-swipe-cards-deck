@@ -14,7 +14,19 @@ import {
   ViewPropTypes,
 } from "react-native";
 
-import clamp from "clamp";
+function clamp(value, min, max) {
+  return min < max
+    ? value < min
+      ? min
+      : value > max
+      ? max
+      : value
+    : value < max
+    ? max
+    : value > min
+    ? min
+    : value;
+}
 
 import Defaults from "./Defaults.js";
 
