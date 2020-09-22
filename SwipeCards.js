@@ -113,6 +113,7 @@ export default class SwipeCards extends Component {
     style: ViewPropTypes.style,
     dragY: PropTypes.bool,
     smoothTransition: PropTypes.bool,
+    keyExtractor: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -491,7 +492,7 @@ export default class SwipeCards extends Component {
 
         return (
           <Animated.View
-            key={card[this.props.cardKey]}
+            key={keyExtractor(card)}
             style={[styles.card, animatedCardStyles]}
             {...this._panResponder.panHandlers}
           >
@@ -501,7 +502,7 @@ export default class SwipeCards extends Component {
       }
 
       return (
-        <Animated.View key={card[this.props.cardKey]} style={style}>
+        <Animated.View key={keyExtractor(card)} style={style}>
           {this.props.renderCard(card)}
         </Animated.View>
       );
@@ -534,7 +535,7 @@ export default class SwipeCards extends Component {
 
     return (
       <Animated.View
-        key={"top"}
+        key={keyExtractor(this.state.card)}
         style={[styles.card, animatedCardStyles]}
         {...this._panResponder.panHandlers}
       >
