@@ -158,20 +158,19 @@ export default class SwipeCards extends Component {
           hasSwipedHorizontally ||
           (hasSwipedVertically && this.props.hasMaybeAction)
         ) {
-          let cancelled = false;
-
           const hasMovedRight =
             hasSwipedHorizontally && this.state.pan.x._value > 0;
           const hasMovedLeft =
             hasSwipedHorizontally && this.state.pan.x._value < 0;
           const hasMovedUp = hasSwipedVertically && this.state.pan.y._value < 0;
 
+          let cancelled = false;
           if (hasMovedRight) {
-            cancelled = this.props.handleYup(this.state.card);
+            this.props.handleYup(this.state.card);
           } else if (hasMovedLeft) {
-            cancelled = this.props.handleNope(this.state.card);
+            this.props.handleNope(this.state.card);
           } else if (hasMovedUp && this.props.hasMaybeAction) {
-            cancelled = this.props.handleMaybe(this.state.card);
+            this.props.handleMaybe(this.state.card);
           } else {
             cancelled = true;
           }
