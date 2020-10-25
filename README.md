@@ -14,14 +14,14 @@ Issues & PRs are welcome (for PRs check PR section at the bottom)
 
 ## Quick Start
 1. `npm install --save  eyalyoli/react-native-swipe-cards-deck `
-2. Import it `import SwipeCards from './SwipeCards.js'`
+2. Import it `import SwipeCards from "react-native-swipe-cards-deck"'`
 4. Render it `<SwipeCards ... />`
 
 ```javascript
 import React, { Component } from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 
-import SwipeCards from 'react-native-swipe-cards';
+import SwipeCards from "react-native-swipe-cards-deck";
 
 class Card extends React.Component {
   constructor(props) {
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
 import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 
-import SwipeCards from 'react-native-swipe-cards';
+import SwipeCards from "react-native-swipe-cards-deck";
 
 class Card extends React.Component {
   constructor(props) {
