@@ -1,6 +1,6 @@
 {
   "name": "react-native-swipe-cards-deck",
-  "version": "0.2.3",
+  "version": "0.2.5",
   "description": "Swipe cards for stylishly passing & failing a card",
   "main": "SwipeCards.js",
   "scripts": {
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/eyalyoli/react-native-swipe-cards-deck#readme",
   "dependencies": {
+    "clamp": "^1.0.1",
     "prop-types": "^15.7.2"
   }
 }
