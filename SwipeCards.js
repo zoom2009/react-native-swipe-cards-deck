@@ -115,7 +115,10 @@ export default class SwipeCards extends Component {
       onPanResponderMove: Animated.event(
         [
           null,
-          { dx: this.state.pan.x, dy: this.props.dragY ? this.state.pan.y : 0 },
+          {
+            dx: this.state.pan.x,
+            dy: this.props.dragY ? this.state.pan.y : 0,
+          },
         ],
         { useNativeDriver: false }
       ),
@@ -145,13 +148,12 @@ export default class SwipeCards extends Component {
           hasSwipedHorizontally ||
           (hasSwipedVertically && this.props.hasMaybeAction)
         ) {
-          
           const hasMovedRight =
-          hasSwipedHorizontally && this.state.pan.x._value > 0;
+            hasSwipedHorizontally && this.state.pan.x._value > 0;
           const hasMovedLeft =
-          hasSwipedHorizontally && this.state.pan.x._value < 0;
+            hasSwipedHorizontally && this.state.pan.x._value < 0;
           const hasMovedUp = hasSwipedVertically && this.state.pan.y._value < 0;
-          
+
           let cancelled = false;
           if (hasMovedRight) {
             this.props.handleYup(this.state.card);
@@ -278,20 +280,42 @@ export default class SwipeCards extends Component {
     }).start();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.cards !== this.props.cards) {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.cards !== prevState.cards) {
+      return {
+        cards: [].concat(nextProps.cards),
+        card: nextProps.cards[0],
+      };
+    } else return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.cards !== this.props.cards) {
       if (this.cardAnimation) {
         this.cardAnimation.stop();
         this.cardAnimation = null;
       }
 
       currentIndex[this.guid] = 0;
-      this.setState({
-        cards: [].concat(nextProps.cards),
-        card: nextProps.cards[0],
-      });
+      this._resetState();
     }
   }
+
+  // old implementation
+  //  componentWillReceiveProps(nextProps) {
+  //    if (nextProps.cards !== this.props.cards) {
+  //      if (this.cardAnimation) {
+  //        this.cardAnimation.stop();
+  //        this.cardAnimation = null;
+  //      }
+
+  //      currentIndex[this.guid] = 0;
+  //      this.setState({
+  //        cards: [].concat(nextProps.cards),
+  //        card: nextProps.cards[0],
+  //      });
+  //    }
+  //  }
 
   _resetPan() {
     Animated.spring(this.state.pan, {
