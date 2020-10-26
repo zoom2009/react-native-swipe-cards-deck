@@ -7,6 +7,7 @@ A [package](https://www.npmjs.com/package/react-native-swipe-cards-deck) based o
 I am planning in keeping this project alive for future react version and to expand it for better compatibility, design & performance.
 
 Issues & PRs are welcome (for PRs check PR section at the bottom)
+Note: There are 2 working modes, stack & cards, currently I can only gurantee the cards part of the project but I'll try to fix common problems in both modes.
 
 
 ![React Native Swipe Cards](https://github.com/meteor-factory/react-native-tinder-swipe-cards/raw/master/screenshots/swiper-cards.gif
