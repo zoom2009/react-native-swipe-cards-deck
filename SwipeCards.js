@@ -280,15 +280,6 @@ export default class SwipeCards extends Component {
     }).start();
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.cards !== prevState.cards) {
-      return {
-        cards: [].concat(nextProps.cards),
-        card: nextProps.cards[0],
-      };
-    } else return null;
-  }
-
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.cards !== this.props.cards) {
       if (this.cardAnimation) {
@@ -297,6 +288,10 @@ export default class SwipeCards extends Component {
       }
 
       currentIndex[this.guid] = 0;
+      this.setState({
+         cards: [].concat(nextProps.cards),
+         card: nextProps.cards[0],
+       });
       this._resetState();
     }
   }

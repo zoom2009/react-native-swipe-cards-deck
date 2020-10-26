@@ -1,6 +1,6 @@
 {
   "name": "react-native-swipe-cards-deck",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Swipe cards for stylishly passing & failing a card",
   "main": "SwipeCards.js",
   "scripts": {
