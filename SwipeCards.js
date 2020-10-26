@@ -289,8 +289,8 @@ export default class SwipeCards extends Component {
 
       currentIndex[this.guid] = 0;
       this.setState({
-         cards: [].concat(nextProps.cards),
-         card: nextProps.cards[0],
+         cards: [].concat(this.props.cards),
+         card: this.props.cards[0],
        });
       this._resetState();
     }
