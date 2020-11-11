@@ -123,7 +123,7 @@ export default class SwipeCards extends Component {
         { useNativeDriver: false }
       ),
 
-      onPanResponderRelease: (e, { vx, vy, dx, dy }) => {
+      onPanResponderRelease: async (e, { vx, vy, dx, dy }) => {
         this.props.onDragRelease();
         this.state.pan.flattenOffset();
         let velocity;
@@ -156,11 +156,11 @@ export default class SwipeCards extends Component {
 
           let cancelled = false;
           if (hasMovedRight) {
-            cancelled = this.props.handleYup(this.state.card);
+            cancelled = !(await this.props.handleYup(this.state.card));
           } else if (hasMovedLeft) {
-            cancelled = this.props.handleNope(this.state.card);
+            cancelled = !(await this.props.handleNope(this.state.card));
           } else if (hasMovedUp && this.props.hasMaybeAction) {
-            cancelled = this.props.handleMaybe(this.state.card);
+            cancelled = !(await this.props.handleMaybe(this.state.card));
           } else {
             cancelled = true;
           }
