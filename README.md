@@ -69,12 +69,15 @@ export default class extends React.Component {
 
   handleYup (card) {
     console.log(`Yup for ${card.text}`)
+    return true;
   }
   handleNope (card) {
     console.log(`Nope for ${card.text}`)
+    return true;
   }
   handleMaybe (card) {
     console.log(`Maybe for ${card.text}`)
+    return true;
   }
   render() {
     // If you want a stack of cards instead of one-per-one view, activate stack mode
@@ -173,10 +176,12 @@ export default class App extends React.Component {
 
   handleYup (card) {
     console.log("yup")
+    return true;
   }
 
   handleNope (card) {
     console.log("nope")
+    return true;
   }
 
   cardRemoved (index) {
@@ -261,8 +266,8 @@ const styles = StyleSheet.create({
 | renderYup         | Function | Renders Yup                                                 |              |
 | renderNope        | Function | Renders Nope                                                |              |
 | renderMaybe       | Function | Renders Maybe                                               |              |
-| handleYup         | Function | Called when card is 'passed' with that card's data          |              |
-| handleNope        | Function | Called when card is 'rejected' with that card's data        |              |
+| handleYup         | Function | Called when card is 'passed' with that card's data, returns true for success          |              |
+| handleNope        | Function | Called when card is 'rejected' with that card's data, returns true for success        |              |
 | containerStyle    | style    | Override default style                                      |              |
 | yupStyle          | style    | Override default style                                      |              |
 | yupTextStyle      | style    | Override default style                                      |              |

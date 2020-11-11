@@ -156,11 +156,11 @@ export default class SwipeCards extends Component {
 
           let cancelled = false;
           if (hasMovedRight) {
-            this.props.handleYup(this.state.card);
+            cancelled = this.props.handleYup(this.state.card);
           } else if (hasMovedLeft) {
-            this.props.handleNope(this.state.card);
+            cancelled = this.props.handleNope(this.state.card);
           } else if (hasMovedUp && this.props.hasMaybeAction) {
-            this.props.handleMaybe(this.state.card);
+            cancelled = this.props.handleMaybe(this.state.card);
           } else {
             cancelled = true;
           }
@@ -289,9 +289,9 @@ export default class SwipeCards extends Component {
 
       currentIndex[this.guid] = 0;
       this.setState({
-         cards: [].concat(this.props.cards),
-         card: this.props.cards[0],
-       });
+        cards: [].concat(this.props.cards),
+        card: this.props.cards[0],
+      });
       this._resetState();
     }
   }
