@@ -17,7 +17,9 @@ Note: There are 2 working modes, stack & cards, currently we can only gurantee t
 
 \* Taken from our app swaplet.
 
-If you liked our contribution, please try out swaplet - the free home exchange platform for [Android](https://play.google.com/store/apps/details?id=app.swaplet) and [iOS](https://apps.apple.com/us/app/swaplet-home-exchange/id1545331520). We would love to get your feedback!
+If you liked our contribution, please try out swaplet - the free home exchange platform for [Android](https://play.google.com/store/apps/details?id=app.swaplet) and [iOS](https://apps.apple.com/us/app/swaplet-home-exchange/id1545331520). 
+
+We would love to get your feedback!
 
 ## Quick Start
 1. `npm i react-native-swipe-cards-deck`
