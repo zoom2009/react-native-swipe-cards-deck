@@ -308,12 +308,11 @@ Please use branch prefix (hotfix/feature).
 Contact me if you have questions...
 
 ### Todo
-- [ ] Bug fixes from prev. [project](https://github.com/meteor-factory/react-native-tinder-swipe-cards/issues)
+- [X] Bug fixes from prev. [project](https://github.com/meteor-factory/react-native-tinder-swipe-cards/issues)
 - [ ] Get ideas from [project](https://github.com/jonathanRinciari/React-Native-Swipeable-Cards)
-- [ ] New gif example
-- [ ] Manual testing to check if all prev. features work with new react native versions
+- [X] New gif example
+- [X] Manual testing to check if all prev. features work with new react native versions
 - [ ] Unit testing
 - [ ] Fix dragY not working
 - [ ] useHooks instead
 - [ ] Convert class components to functional components
-- [ ] remove clamps dep
