@@ -13,8 +13,7 @@ Issues & PRs are welcome (for PRs check PR section at the bottom)
 Note: There are 2 working modes, stack & cards, currently I can only gurantee the cards part of the project but I'll try to fix common problems in both modes.
 
 
-![React Native Swipe Cards](https://github.com/meteor-factory/react-native-tinder-swipe-cards/raw/master/screenshots/swiper-cards.gif
-)
+![React Native Swipe Cards](https://github.com/eyalyoli/react-native-swipe-cards-deck/blob/master/screenshots/swipe-animation.gif)
 
 ## Quick Start
 1. `npm install --save  eyalyoli/react-native-swipe-cards-deck `
