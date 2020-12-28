@@ -1,6 +1,6 @@
 {
   "name": "react-native-swipe-cards-deck",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "Swipe cards for stylishly passing & failing a card",
   "main": "SwipeCards.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eyalyoli/react-native-swipe-cards-deck.git"
+    "url": "git+https://github.com/swaplet/react-native-swipe-cards-deck.git"
   },
   "keywords": [
     "react-native",
@@ -20,9 +20,9 @@
   "author": "meteor-factory",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/eyalyoli/react-native-swipe-cards-deck/issues"
+    "url": "https://github.com/swaplet/react-native-swipe-cards-deck/issues"
   },
-  "homepage": "https://github.com/eyalyoli/react-native-swipe-cards-deck#readme",
+  "homepage": "https://github.com/swaplet/react-native-swipe-cards-deck#readme",
   "dependencies": {
     "clamp": "^1.0.1",
     "prop-types": "^15.7.2"
