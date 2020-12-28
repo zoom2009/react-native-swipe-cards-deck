@@ -16,8 +16,8 @@ Note: There are 2 working modes, stack & cards, currently I can only gurantee th
 ![React Native Swipe Cards](https://github.com/eyalyoli/react-native-swipe-cards-deck/blob/master/screenshots/swipe-animation.gif)
 
 ## Quick Start
-1. `npm install --save  eyalyoli/react-native-swipe-cards-deck `
-2. Import it `import SwipeCards from "react-native-swipe-cards-deck"'`
+1. `npm i react-native-swipe-cards-deck`
+2. Import it `import SwipeCards from "react-native-swipe-cards-deck"`
 4. Render it `<SwipeCards ... />`
 
 ```javascript
