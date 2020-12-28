@@ -2,18 +2,22 @@
 
 A swipping cards deck (similar to Tinder). This project is compatible with React Native 0.62 & Expo projects (unlike others).
 
-A [package](https://www.npmjs.com/package/react-native-swipe-cards-deck) based on [react-native-tinder-swipe-cards](https://github.com/meteor-factory/react-native-tinder-swipe-cards) (unmaintained) project - with bug fixes and performance imporvment using react's native driver.
+A [package](https://www.npmjs.com/package/react-native-swipe-cards-deck) based on [react-native-tinder-swipe-cards](https://github.com/meteor-factory/react-native-tinder-swipe-cards) (unmaintained) project - with bug fixes and performance improvement using react's native driver.
 
-I am planning in keeping this project alive for future react version and to expand it for better compatibility, design & performance.
+We are planning in keeping this project alive for future react version and to expand it for better compatibility, design & performance.
 
 Issues & PRs are welcome (for PRs check PR section at the bottom)
 
 
 
-Note: There are 2 working modes, stack & cards, currently I can only gurantee the cards part of the project but I'll try to fix common problems in both modes.
+Note: There are 2 working modes, stack & cards, currently we can only gurantee the cards part of the project but we'll try to fix common problems in both modes.
 
 
 ![React Native Swipe Cards](https://github.com/eyalyoli/react-native-swipe-cards-deck/blob/master/screenshots/swipe-animation.gif)
+
+\* Taken from our app swaplet.
+
+If you liked our contribution, please try out swaplet - the free home exchange platform for [Android](https://play.google.com/store/apps/details?id=app.swaplet) and [iOS](https://apps.apple.com/us/app/swaplet-home-exchange/id1545331520). We would love to get your feedback!
 
 ## Quick Start
 1. `npm i react-native-swipe-cards-deck`
