@@ -714,4 +714,5 @@ SwipeCards.defaultProps = {
   renderCard: (card) => null,
   dragY: true,
   smoothTransition: false,
+  keyExtractor: undefined,
 };
