@@ -1,4 +1,3 @@
-/* Gratefully copied from https://github.com/brentvatne/react-native-animated-demo-tinder */
 "use strict";
 
 import React, { Component } from "react";
@@ -82,6 +81,7 @@ export default class SwipeCards extends Component {
 
     this.state = {
       pan: new Animated.ValueXY(0),
+      panResetAnime: null,
       enter: new Animated.Value(0.5),
       cards: [].concat(this.props.cards),
       card: this.props.cards[currentIndex[this.guid]],
@@ -313,11 +313,14 @@ export default class SwipeCards extends Component {
   //  }
 
   _resetPan() {
-    Animated.spring(this.state.pan, {
+    if (this.state.panResetAnime) this.state.panResetAnime.reset();
+    const anime = Animated.spring(this.state.pan, {
       toValue: { x: 0, y: 0 },
       friction: 4,
       useNativeDriver: true,
-    }).start();
+    });
+    this.state.panResetAnime = anime;
+    anime.start();
   }
 
   _resetState() {
