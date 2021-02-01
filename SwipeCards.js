@@ -384,11 +384,11 @@ export default class SwipeCards extends Component {
 
       let style = {
         position: "absolute",
-        top: this.state.enter.interpolate({
+        translateY: this.state.enter.interpolate({
           inputRange: [0, 1],
           outputRange: [lastOffsetY, offsetY],
         }),
-        left: this.state.enter.interpolate({
+        translateX: this.state.enter.interpolate({
           inputRange: [0, 1],
           outputRange: [lastOffsetX, offsetX],
         }),
