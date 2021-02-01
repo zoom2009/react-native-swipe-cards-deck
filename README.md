@@ -88,14 +88,16 @@ export default class extends React.Component {
     return true;
   }
   render() {
-    // If you want a stack of cards instead of one-per-one view, activate stack mode
-    // stack={true}
     return (
       <SwipeCards
         cards={this.state.cards}
         renderCard={(cardData) => <Card {...cardData} />}
         keyExtractor={(cardData) => String(cardData.text)}
         renderNoMoreCards={() => <NoMoreCards />}
+
+        // If you want a stack of cards instead of one-per-one view, activate stack mode
+        // stack={true}
+        // stackDepth={3}
 
         handleYup={this.handleYup}
         handleNope={this.handleNope}
