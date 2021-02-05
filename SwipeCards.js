@@ -210,7 +210,7 @@ export default class SwipeCards extends Component {
 
   _forceUpSwipe() {
     this.cardAnimation = Animated.timing(this.state.pan, {
-      toValue: { x: 0, y: 500 },
+      toValue: { x: 0, y: -500 },
       useNativeDriver: true,
     }).start((status) => {
       if (status.finished) this._advanceState();
