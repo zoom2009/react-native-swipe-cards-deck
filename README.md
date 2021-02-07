@@ -122,11 +122,11 @@ const styles = StyleSheet.create({
 ```
 
 ### Props
-| Props name        | Type     | Description                                                 | Default      |
+|       Name        | Type     | Description                                                 | Default      |
 |-------------------|----------|-------------------------------------------------------------|--------------|
 | cards*            | Array    | Data that will be provided as props for the cards           |              |
 | renderCard*       | Function | Renders the card with the current data                      |              |
-| keyExtractor*     | Function | Extracts the key for given card                            |              |
+| keyExtractor*     | Function | Extracts the key for given card                             |              |
 | loop              | Boolean  | If true, start again when run out of cards                  | `false`      |
 | onLoop            | Function | Called when card list returns to the beginning              |              |
 | renderNoMoreCards | Function | Renders what is shown after swiped last card                |              |
@@ -148,8 +148,8 @@ const styles = StyleSheet.create({
 | maybeTextStyle    | style    | Override default style                                      |              |
 | yupView           | element  | React component to render on a Yes vote                     |              |
 | yupText           | string   | Text to render on Yes vote                                  | `Yep`        |
-| nopeView            | element  | React component to render on a No vote                      |              |
-| nopeText            | string   | Text to render on No vote                                   | `Nope`       |
+| nopeView          | element  | React component to render on a No vote                      |              |
+| nopeText          | string   | Text to render on No vote                                   | `Nope`       |
 | maybeView         | element  | React component to render on a Maybe vote                   |              |
 | maybeText         | string   | Text to render on Maybe vote                                | `Maybe`      |
 | smoothTransition  | Boolean  | Disables a slow transition fading the current card out      | `false`      |
@@ -160,9 +160,14 @@ const styles = StyleSheet.create({
 | stackOffsetX      | Number   | Horizontal offset between cards in stack                    | 25           |
 | stackOffsetY      | Number   | Vertical offset between cards in stack                      | 0            |
 | cardRemoved       | Function | A callback passing the card reference that just got removed |              |
-| onClickHandler    | Function | A callback clicking the card                                 | alert('tap') |
+| onClickHandler    | Function | A callback clicking the card                                | alert('tap') |
 
-
+### Functions
+|      Name              |           Description                  |   Arguments     |    Return value    |
+|------------------------|----------------------------------------|-----------------|--------------------|
+| _forceRightSwipe       | Fires swipe right animation            |                 |                    |
+| _forceLeftSwipe        | Fires swipe left animation             |                 |                    |
+| _forceUpSwipe          | Fires swipe up animation               |                 |                    |
 
 
 *required
