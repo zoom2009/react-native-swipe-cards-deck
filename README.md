@@ -50,6 +50,7 @@ function StatusCard({ text }) {
 export default function App() {
   const [cards, setCards] = useState();
 
+  // replace with real remote data fetching
   useEffect(() => {
     setTimeout(() => {
       setCards([
