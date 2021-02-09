@@ -27,98 +27,96 @@ We would love to get your feedback!
 4. Render it `<SwipeCards ... />`
 
 ```javascript
-import React, { Component } from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
-
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import SwipeCards from "react-native-swipe-cards-deck";
 
-class Card extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <View style={[styles.card, {backgroundColor: this.props.backgroundColor}]}>
-        <Text>{this.props.text}</Text>
-      </View>
-    )
-  }
+function Card({ data }) {
+  return (
+    <View style={[styles.card, { backgroundColor: data.backgroundColor }]}>
+      <Text>{data.text}</Text>
+    </View>
+  );
 }
 
-class NoMoreCards extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <View>
-        <Text style={styles.noMoreCardsText}>No more cards</Text>
-      </View>
-    )
-  }
+function StatusCard({ text }) {
+  return (
+    <View>
+      <Text style={styles.cardsText}>{text}</Text>
+    </View>
+  );
 }
 
-export default class extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      cards: [
-        {text: 'Tomato', backgroundColor: 'red'},
-        {text: 'Aubergine', backgroundColor: 'purple'},
-        {text: 'Courgette', backgroundColor: 'green'},
-        {text: 'Blueberry', backgroundColor: 'blue'},
-        {text: 'Umm...', backgroundColor: 'cyan'},
-        {text: 'orange', backgroundColor: 'orange'},
-      ]
-    };
-  }
+export default function App() {
+  const [cards, setCards] = useState();
 
-  handleYup (card) {
-    console.log(`Yup for ${card.text}`)
+  useEffect(() => {
+    setTimeout(() => {
+      setCards([
+        { text: "Tomato", backgroundColor: "red" },
+        { text: "Aubergine", backgroundColor: "purple" },
+        { text: "Courgette", backgroundColor: "green" },
+        { text: "Blueberry", backgroundColor: "blue" },
+        { text: "Umm...", backgroundColor: "cyan" },
+        { text: "orange", backgroundColor: "orange" },
+      ]);
+    }, 3000);
+  }, []);
+
+  function handleYup(card) {
+    console.log(`Yup for ${card.text}`);
+    return true; // return false if you wish to cancel the action
+  }
+  function handleNope(card) {
+    console.log(`Nope for ${card.text}`);
     return true;
   }
-  handleNope (card) {
-    console.log(`Nope for ${card.text}`)
+  function handleMaybe(card) {
+    console.log(`Maybe for ${card.text}`);
     return true;
   }
-  handleMaybe (card) {
-    console.log(`Maybe for ${card.text}`)
-    return true;
-  }
-  render() {
-    return (
-      <SwipeCards
-        cards={this.state.cards}
-        renderCard={(cardData) => <Card {...cardData} />}
-        keyExtractor={(cardData) => String(cardData.text)}
-        renderNoMoreCards={() => <NoMoreCards />}
 
-        // If you want a stack of cards instead of one-per-one view, activate stack mode
-        // stack={true}
-        // stackDepth={3}
+  return (
+    <View style={styles.container}>
+      {cards ? (
+        <SwipeCards
+          cards={cards}
+          renderCard={(cardData) => <Card data={cardData} />}
+          keyExtractor={(cardData) => String(cardData.text)}
+          renderNoMoreCards={() => <StatusCard text="No more cards..." />}
+          handleYup={handleYup}
+          handleNope={handleNope}
+          handleMaybe={handleMaybe}
+          hasMaybeAction={true}
 
-        handleYup={this.handleYup}
-        handleNope={this.handleNope}
-        handleMaybe={this.handleMaybe}
-        hasMaybeAction
-      />
-    )
-  }
+          // If you want a stack of cards instead of one-per-one view, activate stack mode
+          // stack={true}
+          // stackDepth={3}
+        />
+      ) : (
+        <StatusCard text="Loading..." />
+      )}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   card: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     width: 300,
     height: 300,
   },
-  noMoreCardsText: {
+  cardsText: {
     fontSize: 22,
-  }
-})
+  },
+});
 ```
 
 ### Props
