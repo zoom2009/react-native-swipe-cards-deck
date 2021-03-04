@@ -10,7 +10,7 @@ Issues & PRs are welcome (for PRs check PR section at the bottom)
 
 
 
-Note: There are 2 working modes, stack & cards, currently we can only gurantee the cards part of the project but we'll try to fix common problems in both modes.
+Note: There are 2 working modes, stack & cards, currently we can only gurantee the cards part of the project but we'll try to fix common problems in both modes. Stack mode is working OK in the latest version.
 
 
 ![React Native Swipe Cards](https://github.com/eyalyoli/react-native-swipe-cards-deck/blob/master/screenshots/swipe-animation.gif)
