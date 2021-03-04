@@ -117,7 +117,7 @@ export default class SwipeCards extends Component {
           null,
           {
             dx: this.state.pan.x,
-            dy: this.props.dragY ? this.state.pan.y : 0,
+            dy: this.props.dragY ? this.state.pan.y : new Animated.Value(0),
           },
         ],
         { useNativeDriver: false }
