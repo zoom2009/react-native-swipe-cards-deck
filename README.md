@@ -183,8 +183,8 @@ Contact me if you have questions...
 - [ ] Get ideas from [project](https://github.com/jonathanRinciari/React-Native-Swipeable-Cards)
 - [X] New gif example
 - [X] Manual testing to check if all prev. features work with new react native versions
-- [ ] Fix stack mode
+- [X] Fix stack mode
 - [ ] Unit testing
-- [ ] Fix dragY not working
+- [X] Fix dragY not working
 - [ ] useHooks instead
 - [ ] Convert class components to functional components
