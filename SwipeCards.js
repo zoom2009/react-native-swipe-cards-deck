@@ -426,7 +426,8 @@ export default class SwipeCards extends Component {
             });
 
         let animatedCardStyles = {
-          ...style,
+          //...style,
+          elevation: i * 10,
           transform: [
             { translateX: translateX },
             { translateY: translateY },
