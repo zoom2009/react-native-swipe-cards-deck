@@ -382,32 +382,40 @@ export default class SwipeCards extends Component {
       let scale = 0.85 + (0.15 / cards.length) * (i + 1);
       let lastScale = 0.85 + (0.15 / cards.length) * i;
 
-      let style = {
-        position: "absolute",
-        translateY: this.state.enter.interpolate({
-          inputRange: [0, 1],
-          outputRange: [lastOffsetY, offsetY],
-        }),
-        translateX: this.state.enter.interpolate({
-          inputRange: [0, 1],
-          outputRange: [lastOffsetX, offsetX],
-        }),
-        opacity: this.props.smoothTransition
-          ? 1
-          : this.state.enter.interpolate({
-              inputRange: [0, 1],
-              outputRange: [lastOpacity, opacity],
-            }),
-        transform: [
-          {
-            scale: this.state.enter.interpolate({
-              inputRange: [0, 1],
-              outputRange: [lastScale, scale],
-            }),
-          },
-        ],
-        elevation: i * 10,
-      };
+      let style = [
+        {
+          position: "absolute",
+          opacity: this.props.smoothTransition
+            ? 1
+            : this.state.enter.interpolate({
+                inputRange: [0, 1],
+                outputRange: [lastOpacity, opacity],
+              }),
+          elevation: i * 10,
+        },
+        {
+          transform: [
+            {
+              translateY: this.state.enter.interpolate({
+                inputRange: [0, 1],
+                outputRange: [lastOffsetY, offsetY],
+              }),
+            },
+            {
+              translateX: this.state.enter.interpolate({
+                inputRange: [0, 1],
+                outputRange: [lastOffsetX, offsetX],
+              }),
+            },
+            {
+              scale: this.state.enter.interpolate({
+                inputRange: [0, 1],
+                outputRange: [lastScale, scale],
+              }),
+            },
+          ],
+        },
+      ];
 
       //Is this the top card?  If so animate it and hook up the pan handlers.
       if (i + 1 === cards.length) {
