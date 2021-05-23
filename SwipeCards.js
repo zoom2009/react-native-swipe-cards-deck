@@ -448,9 +448,34 @@ export default class SwipeCards extends Component {
     );
   }
 
+  renderAction(opacity, scale, text, color, overrideView, overrideStyle) {
+    let animatedStyles = {
+      transform: [{ scale: scale }],
+      opacity: opacity,
+    };
+
+    const inner = overrideView ? (
+      overrideView
+    ) : (
+      <Defaults.ActionView text={text} color={color} />
+    );
+
+    return (
+      <Animated.View
+        style={[
+          styles.action,
+          { borderColor: color },
+          animatedStyles,
+          overrideStyle,
+        ]}
+      >
+        {inner}
+      </Animated.View>
+    );
+  }
+
   renderNope() {
     let { pan } = this.state;
-
     let nopeOpacity = pan.x.interpolate({
       inputRange: [-SWIPE_THRESHOLD, -(SWIPE_THRESHOLD / 2)],
       outputRange: [1, 0],
@@ -461,41 +486,19 @@ export default class SwipeCards extends Component {
       outputRange: [1, 0],
       extrapolate: "clamp",
     });
-    let animatedNopeStyles = {
-      transform: [{ scale: nopeScale }],
-      opacity: nopeOpacity,
-    };
 
-    if (this.props.renderNope) {
-      return this.props.renderNope(pan);
-    }
-
-    if (this.props.showNope) {
-      const inner = this.props.nopeView ? (
-        this.props.nopeView
-      ) : (
-        <Text style={[styles.nopeText, this.props.nopeTextStyle]}>
-          {this.props.nopeText}
-        </Text>
+    return this.renderAction(
+      nopeOpacity,
+      nopeScale,
+      this.props.nopeText,
+      "red",
+      this.props.nopeView,
+      this.props.nopeStyle
       );
-
-      return (
-        <Animated.View
-          style={[styles.nope, this.props.nopeStyle, animatedNopeStyles]}
-        >
-          {inner}
-        </Animated.View>
-      );
-    }
-
-    return null;
   }
 
   renderMaybe() {
-    if (!this.props.hasMaybeAction) return null;
-
     let { pan } = this.state;
-
     let maybeOpacity = pan.y.interpolate({
       inputRange: [-SWIPE_THRESHOLD, -(SWIPE_THRESHOLD / 2)],
       outputRange: [1, 0],
@@ -506,39 +509,19 @@ export default class SwipeCards extends Component {
       outputRange: [0, 1, 0],
       extrapolate: "clamp",
     });
-    let animatedMaybeStyles = {
-      transform: [{ scale: maybeScale }],
-      opacity: maybeOpacity,
-    };
 
-    if (this.props.renderMaybe) {
-      return this.props.renderMaybe(pan);
-    }
-
-    if (this.props.showMaybe) {
-      const inner = this.props.maybeView ? (
-        this.props.maybeView
-      ) : (
-        <Text style={[styles.maybeText, this.props.maybeTextStyle]}>
-          {this.props.maybeText}
-        </Text>
-      );
-
-      return (
-        <Animated.View
-          style={[styles.maybe, this.props.maybeStyle, animatedMaybeStyles]}
-        >
-          {inner}
-        </Animated.View>
+    return this.renderAction(
+      maybeOpacity,
+      maybeScale,
+      this.props.maybeText,
+      "orange",
+      this.props.maybeView,
+      this.props.maybeStyle
       );
     }
-
-    return null;
-  }
 
   renderYup() {
     let { pan } = this.state;
-
     let yupOpacity = pan.x.interpolate({
       inputRange: [SWIPE_THRESHOLD / 2, SWIPE_THRESHOLD],
       outputRange: [0, 1],
@@ -549,43 +532,26 @@ export default class SwipeCards extends Component {
       outputRange: [0.5, 1],
       extrapolate: "clamp",
     });
-    let animatedYupStyles = {
-      transform: [{ scale: yupScale }],
-      opacity: yupOpacity,
-    };
 
-    if (this.props.renderYup) {
-      return this.props.renderYup(pan);
-    }
-
-    if (this.props.showYup) {
-      const inner = this.props.yupView ? (
-        this.props.yupView
-      ) : (
-        <Text style={[styles.yupText, this.props.yupTextStyle]}>
-          {this.props.yupText}
-        </Text>
-      );
-
-      return (
-        <Animated.View
-          style={[styles.yup, this.props.yupStyle, animatedYupStyles]}
-        >
-          {inner}
-        </Animated.View>
+    return this.renderAction(
+      yupOpacity,
+      yupScale,
+      this.props.yupText,
+      "green",
+      this.props.yupView,
+      this.props.yupStyle
       );
     }
-
-    return null;
-  }
 
   render() {
     return (
       <View style={[styles.container, this.props.style]}>
         {this.props.stack ? this.renderStack() : this.renderCard()}
-        {this.renderNope()}
-        {this.renderMaybe()}
-        {this.renderYup()}
+        {this.props.showNope && this.renderNope()}
+        {this.props.hasMaybeAction &&
+          this.props.showMaybe &&
+          this.renderMaybe()}
+        {this.props.showYup && this.renderYup()}
       </View>
     );
   }
