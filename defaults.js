@@ -29,6 +29,7 @@ class ActionView extends Component {
         style={[
           defaultsStyles.action,
           { borderColor: this.props.color, color: this.props.color },
+          this.props.style
         ]}
       >
         {this.props.text}

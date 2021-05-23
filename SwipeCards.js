@@ -446,7 +446,7 @@ export default class SwipeCards extends Component {
     );
   }
 
-  renderAction(opacity, scale, text, color, overrideView, overrideStyle) {
+  renderAction(opacity, scale, props) {
     let animatedStyles = {
       transform: [{ scale: scale }],
       opacity: opacity,
@@ -456,15 +456,19 @@ export default class SwipeCards extends Component {
       <Animated.View
         style={[
           styles.action,
-          { borderColor: color },
+          { borderColor: props.color },
           animatedStyles,
-          overrideStyle,
+          props.containerStyle,
         ]}
       >
-        {overrideView ? (
-          overrideView
+        {props.view ? (
+          props.view
         ) : (
-          <Defaults.ActionView text={text} color={color} />
+          <Defaults.ActionView
+            text={props.text}
+            color={props.color}
+            style={props.textStyle}
+          />
         )}
       </Animated.View>
     );
@@ -486,14 +490,7 @@ export default class SwipeCards extends Component {
       extrapolate: "clamp",
     });
 
-    return this.renderAction(
-      nopeOpacity,
-      nopeScale,
-      this.props.actions.nope.text,
-      this.props.actions.nope.color,
-      this.props.actions.nope.view,
-      this.props.actions.nope.containerStyle
-    );
+    return this.renderAction(nopeOpacity, nopeScale, this.props.actions.nope);
   }
 
   renderMaybe() {
@@ -515,10 +512,7 @@ export default class SwipeCards extends Component {
     return this.renderAction(
       maybeOpacity,
       maybeScale,
-      this.props.actions.maybe.text,
-      this.props.actions.maybe.color,
-      this.props.actions.maybe.view,
-      this.props.actions.maybe.containerStyle
+      this.props.actions.maybe
     );
   }
 
@@ -535,14 +529,7 @@ export default class SwipeCards extends Component {
       extrapolate: "clamp",
     });
 
-    return this.renderAction(
-      yupOpacity,
-      yupScale,
-      this.props.actions.yup.text,
-      this.props.actions.yup.color,
-      this.props.actions.yup.view,
-      this.props.actions.yup.containerStyle
-    );
+    return this.renderAction(yupOpacity, yupScale, this.props.actions.yup);
   }
 
   render() {
@@ -563,6 +550,7 @@ const actionShape = PropTypes.shape({
   show: PropTypes.bool,
   view: PropTypes.element, // takes priority over text + color
   containerStyle: ViewPropTypes.style,
+  textStyle: ViewPropTypes.style,
   text: PropTypes.string,
   color: PropTypes.string,
 });
