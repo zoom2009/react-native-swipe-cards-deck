@@ -9,7 +9,7 @@ import {
   PanResponder,
   ViewPropTypes,
 } from "react-native";
-import Defaults from "./default-values.js";
+import Defaults from "./defaults";
 import clamp from "clamp";
 import { styles } from "./styles";
 
