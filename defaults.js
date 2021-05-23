@@ -1,7 +1,8 @@
 "use strict";
 
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import { defaultsStyles } from "./styles";
 
 class NoMoreCards extends Component {
   constructor(props) {
@@ -11,18 +12,32 @@ class NoMoreCards extends Component {
   render() {
     return (
       <View>
-        <Text style={styles.noMoreCardsText}>No more cards</Text>
+        <Text style={defaultsStyles.noMoreCardsText}>No more cards</Text>
       </View>
     );
   }
 }
 
-export default {
-  NoMoreCards: NoMoreCards,
-};
+class ActionView extends Component {
+  constructor(props) {
+    super(props);
+  }
 
-const styles = StyleSheet.create({
-  noMoreCardsText: {
-    fontSize: 22,
-  },
-});
+  render() {
+    return (
+      <Text
+        style={[
+          defaultsStyles.action,
+          { borderColor: this.props.color, color: this.props.color },
+        ]}
+      >
+        {this.props.text}
+      </Text>
+    );
+  }
+}
+
+export default {
+  NoMoreCards,
+  ActionView,
+};

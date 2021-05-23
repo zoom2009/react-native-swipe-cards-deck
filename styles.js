@@ -51,3 +51,20 @@ export const styles = StyleSheet.create({
     color: "red",
   },
 });
+
+export const defaultsStyles = StyleSheet.create({
+  noMoreCardsText: {
+    fontSize: 22,
+  },
+  action: {
+    borderColor: "green",
+    borderWidth: 2,
+    position: "absolute",
+    padding: 20,
+    bottom: 20,
+    borderRadius: 5,
+    right: 0,
+    fontSize: 16,
+    color: "green",
+  },
+});
