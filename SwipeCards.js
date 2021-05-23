@@ -13,8 +13,6 @@ import Defaults from "./defaults";
 import clamp from "clamp";
 import { styles } from "./styles";
 
-const SWIPE_THRESHOLD = 120; //TODO threshold of action sensitivity
-
 //Components could be unloaded and loaded and we will loose the users currentIndex, we can persist it here.
 let currentIndex = {};
 let guid = 0;
@@ -89,9 +87,9 @@ export default class SwipeCards extends Component {
         }
 
         const hasSwipedHorizontally =
-          Math.abs(this.state.pan.x._value) > SWIPE_THRESHOLD;
+          Math.abs(this.state.pan.x._value) > this.props.swipeThreshold;
         const hasSwipedVertically =
-          Math.abs(this.state.pan.y._value) > SWIPE_THRESHOLD;
+          Math.abs(this.state.pan.y._value) > this.props.swipeThreshold;
         if (
           hasSwipedHorizontally ||
           (hasSwipedVertically && this.props.hasMaybeAction)
@@ -477,12 +475,15 @@ export default class SwipeCards extends Component {
   renderNope() {
     let { pan } = this.state;
     let nopeOpacity = pan.x.interpolate({
-      inputRange: [-SWIPE_THRESHOLD, -(SWIPE_THRESHOLD / 2)],
+      inputRange: [
+        -this.props.swipeThreshold,
+        -(this.props.swipeThreshold / 2),
+      ],
       outputRange: [1, 0],
       extrapolate: "clamp",
     });
     let nopeScale = pan.x.interpolate({
-      inputRange: [-SWIPE_THRESHOLD, 0],
+      inputRange: [-this.props.swipeThreshold, 0],
       outputRange: [1, 0],
       extrapolate: "clamp",
     });
@@ -494,18 +495,21 @@ export default class SwipeCards extends Component {
       "red",
       this.props.nopeView,
       this.props.nopeStyle
-      );
+    );
   }
 
   renderMaybe() {
     let { pan } = this.state;
     let maybeOpacity = pan.y.interpolate({
-      inputRange: [-SWIPE_THRESHOLD, -(SWIPE_THRESHOLD / 2)],
+      inputRange: [
+        -this.props.swipeThreshold,
+        -(this.props.swipeThreshold / 2),
+      ],
       outputRange: [1, 0],
       extrapolate: "clamp",
     });
     let maybeScale = pan.x.interpolate({
-      inputRange: [-SWIPE_THRESHOLD, 0, SWIPE_THRESHOLD],
+      inputRange: [-this.props.swipeThreshold, 0, this.props.swipeThreshold],
       outputRange: [0, 1, 0],
       extrapolate: "clamp",
     });
@@ -517,18 +521,18 @@ export default class SwipeCards extends Component {
       "orange",
       this.props.maybeView,
       this.props.maybeStyle
-      );
-    }
+    );
+  }
 
   renderYup() {
     let { pan } = this.state;
     let yupOpacity = pan.x.interpolate({
-      inputRange: [SWIPE_THRESHOLD / 2, SWIPE_THRESHOLD],
+      inputRange: [this.props.swipeThreshold / 2, this.props.swipeThreshold],
       outputRange: [0, 1],
       extrapolate: "clamp",
     });
     let yupScale = pan.x.interpolate({
-      inputRange: [0, SWIPE_THRESHOLD],
+      inputRange: [0, this.props.swipeThreshold],
       outputRange: [0.5, 1],
       extrapolate: "clamp",
     });
@@ -540,8 +544,8 @@ export default class SwipeCards extends Component {
       "green",
       this.props.yupView,
       this.props.yupStyle
-      );
-    }
+    );
+  }
 
   render() {
     return (
@@ -593,6 +597,7 @@ SwipeCards.propTypes = {
   dragY: PropTypes.bool,
   smoothTransition: PropTypes.bool,
   keyExtractor: PropTypes.func.isRequired,
+  swipeThreshold: number,
 };
 
 SwipeCards.defaultProps = {
@@ -622,4 +627,5 @@ SwipeCards.defaultProps = {
   dragY: true,
   smoothTransition: false,
   keyExtractor: undefined,
+  swipeThreshold: 120,
 };
