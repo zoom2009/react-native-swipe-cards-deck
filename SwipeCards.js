@@ -2,18 +2,14 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-
 import {
-  StyleSheet,
   Text,
   View,
   Animated,
   PanResponder,
-  Dimensions,
   ViewPropTypes,
 } from "react-native";
-
-import Defaults from "./Defaults.js";
+import Defaults from "./default-values.js";
 import clamp from "clamp";
 import { styles } from "./styles";
 
