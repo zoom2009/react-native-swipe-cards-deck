@@ -296,22 +296,6 @@ export default class SwipeCards extends Component {
     }
   }
 
-  // old implementation
-  //  componentWillReceiveProps(nextProps) {
-  //    if (nextProps.cards !== this.props.cards) {
-  //      if (this.cardAnimation) {
-  //        this.cardAnimation.stop();
-  //        this.cardAnimation = null;
-  //      }
-
-  //      currentIndex[this.guid] = 0;
-  //      this.setState({
-  //        cards: [].concat(nextProps.cards),
-  //        card: nextProps.cards[0],
-  //      });
-  //    }
-  //  }
-
   _resetPan() {
     if (this.state.panResetAnime) this.state.panResetAnime.reset();
     const anime = Animated.spring(this.state.pan, {
