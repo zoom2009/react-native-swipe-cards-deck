@@ -182,15 +182,9 @@ export default class SwipeCards extends Component {
     this.props.cardRemoved(currentIndex[this.guid]);
   }
 
-  swipeMaybe() {
-    return this._forceUpSwipe();
-  }
-  swipeYup() {
-    return this._forceRightSwipe();
-  }
-  swipeNope() {
-    return this._forceLeftSwipe();
-  }
+  swipeMaybe = () => this._forceUpSwipe();
+  swipeYup = () => this._forceRightSwipe();
+  swipeNope = () => this._forceLeftSwipe();
 
   _goToNextCard() {
     currentIndex[this.guid]++;
