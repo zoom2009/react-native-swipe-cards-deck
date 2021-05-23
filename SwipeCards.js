@@ -280,11 +280,7 @@ export default class SwipeCards extends Component {
   }
 
   renderNoMoreCards() {
-    if (this.props.renderNoMoreCards) {
-      return this.props.renderNoMoreCards();
-    }
-
-    return <Defaults.NoMoreCards />;
+    return this.props.renderNoMoreCards || <Defaults.NoMoreCards />;
   }
 
   /**
