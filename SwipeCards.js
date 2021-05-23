@@ -452,12 +452,6 @@ export default class SwipeCards extends Component {
       opacity: opacity,
     };
 
-    const inner = overrideView ? (
-      overrideView
-    ) : (
-      <Defaults.ActionView text={text} color={color} />
-    );
-
     return (
       <Animated.View
         style={[
@@ -467,7 +461,11 @@ export default class SwipeCards extends Component {
           overrideStyle,
         ]}
       >
-        {inner}
+        {overrideView ? (
+          overrideView
+        ) : (
+          <Defaults.ActionView text={text} color={color} />
+        )}
       </Animated.View>
     );
   }
@@ -491,10 +489,10 @@ export default class SwipeCards extends Component {
     return this.renderAction(
       nopeOpacity,
       nopeScale,
-      this.props.nopeText,
-      "red",
-      this.props.nopeView,
-      this.props.nopeStyle
+      this.props.actions.nope.text,
+      this.props.actions.nope.color,
+      this.props.actions.nope.view,
+      this.props.actions.nope.containerStyle
     );
   }
 
@@ -517,10 +515,10 @@ export default class SwipeCards extends Component {
     return this.renderAction(
       maybeOpacity,
       maybeScale,
-      this.props.maybeText,
-      "orange",
-      this.props.maybeView,
-      this.props.maybeStyle
+      this.props.actions.maybe.text,
+      this.props.actions.maybe.color,
+      this.props.actions.maybe.view,
+      this.props.actions.maybe.containerStyle
     );
   }
 
@@ -540,10 +538,10 @@ export default class SwipeCards extends Component {
     return this.renderAction(
       yupOpacity,
       yupScale,
-      this.props.yupText,
-      "green",
-      this.props.yupView,
-      this.props.yupStyle
+      this.props.actions.yup.text,
+      this.props.actions.yup.color,
+      this.props.actions.yup.view,
+      this.props.actions.yup.containerStyle
     );
   }
 
@@ -551,15 +549,23 @@ export default class SwipeCards extends Component {
     return (
       <View style={[styles.container, this.props.style]}>
         {this.props.stack ? this.renderStack() : this.renderCard()}
-        {this.props.showNope && this.renderNope()}
+        {this.props.actions.nope.show && this.renderNope()}
         {this.props.hasMaybeAction &&
-          this.props.showMaybe &&
+          this.props.actions.maybe.show &&
           this.renderMaybe()}
-        {this.props.showYup && this.renderYup()}
+        {this.props.actions.yup.show && this.renderYup()}
       </View>
     );
   }
 }
+
+const actionShape = PropTypes.shape({
+  show: PropTypes.bool,
+  view: PropTypes.element, // takes priority over text + color
+  containerStyle: ViewPropTypes.style,
+  text: PropTypes.string,
+  color: PropTypes.string,
+});
 
 SwipeCards.propTypes = {
   cards: PropTypes.array,
@@ -573,21 +579,14 @@ SwipeCards.propTypes = {
   stackOffsetX: PropTypes.number,
   stackOffsetY: PropTypes.number,
   renderNoMoreCards: PropTypes.func,
-  showYup: PropTypes.bool,
-  showMaybe: PropTypes.bool,
-  showNope: PropTypes.bool,
+  actions: PropTypes.shape({
+    yup: actionShape,
+    nope: actionShape,
+    maybe: actionShape,
+  }),
   handleYup: PropTypes.func,
   handleMaybe: PropTypes.func,
   handleNope: PropTypes.func,
-  yupText: PropTypes.string,
-  yupView: PropTypes.element,
-  yupStyle: ViewPropTypes.style,
-  maybeText: PropTypes.string,
-  maybeView: PropTypes.element,
-  maybeStyle: ViewPropTypes.style,
-  nopeText: PropTypes.string,
-  nopeView: PropTypes.element,
-  nopeStyle: ViewPropTypes.style,
   onClickHandler: PropTypes.func,
   onDragStart: PropTypes.func,
   onDragRelease: PropTypes.func,
@@ -597,7 +596,7 @@ SwipeCards.propTypes = {
   dragY: PropTypes.bool,
   smoothTransition: PropTypes.bool,
   keyExtractor: PropTypes.func.isRequired,
-  swipeThreshold: number,
+  swipeThreshold: PropTypes.number,
 };
 
 SwipeCards.defaultProps = {
@@ -610,20 +609,19 @@ SwipeCards.defaultProps = {
   stackDepth: 5,
   stackOffsetX: 25,
   stackOffsetY: 0,
-  showYup: true,
-  showMaybe: true,
-  showNope: true,
-  handleYup: (card) => null,
-  handleMaybe: (card) => null,
-  handleNope: (card) => null,
-  nopeText: "Nope!",
-  maybeText: "Maybe!",
-  yupText: "Yup!",
+  actions: {
+    yup: { show: true, text: "Yup!", color: "green" },
+    nope: { show: true, text: "Nope!", color: "red" },
+    maybe: { show: true, text: "Maybe!", color: "orange" },
+  },
+  handleYup: () => null,
+  handleMaybe: () => null,
+  handleNope: () => null,
   onClickHandler: () => {},
   onDragStart: () => {},
   onDragRelease: () => {},
-  cardRemoved: (ix) => null,
-  renderCard: (card) => null,
+  cardRemoved: () => null,
+  renderCard: () => null,
   dragY: true,
   smoothTransition: false,
   keyExtractor: undefined,
