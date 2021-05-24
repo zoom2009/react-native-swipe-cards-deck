@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
 | ✨ swipeYup            | Fires swipe yup action                 |                 |                    | new                  |
 | ✨ swipeNope           | Fires swipe nope action                |                 |                    | new                  |
 
-### Interfaces (v3.0+)
+### Interfaces (v0.3+)
 ```javascript
 interface Action {
   show: boolean, // if to show the view when the action occur, this doesn't disable the action from happening!
