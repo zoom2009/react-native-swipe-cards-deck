@@ -223,3 +223,4 @@ Contact me if you have questions...
 - [X] Fix dragY not working
 - [X] Fix iOS stack
 - [ ] Refactor code to be cleaner - v3.0
+- [ ] Add typescript types
