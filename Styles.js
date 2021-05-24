@@ -11,44 +11,14 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "transparent",
   },
-  yup: {
+  action: {
     borderColor: "green",
-    borderWidth: 2,
-    position: "absolute",
-    padding: 20,
-    bottom: 20,
-    borderRadius: 5,
-    right: 0,
-  },
-  yupText: {
-    fontSize: 16,
-    color: "green",
-  },
-  maybe: {
-    borderColor: "blue",
-    borderWidth: 2,
-    position: "absolute",
-    padding: 20,
-    bottom: 20,
-    borderRadius: 5,
-    right: 20,
-  },
-  maybeText: {
-    fontSize: 16,
-    color: "blue",
-  },
-  nope: {
-    borderColor: "red",
     borderWidth: 2,
     position: "absolute",
     bottom: 20,
     padding: 20,
     borderRadius: 5,
     left: 0,
-  },
-  nopeText: {
-    fontSize: 16,
-    color: "red",
   },
 });
 
@@ -57,13 +27,6 @@ export const defaultsStyles = StyleSheet.create({
     fontSize: 22,
   },
   action: {
-    borderColor: "green",
-    borderWidth: 2,
-    position: "absolute",
-    padding: 20,
-    bottom: 20,
-    borderRadius: 5,
-    right: 0,
     fontSize: 16,
     color: "green",
   },

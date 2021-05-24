@@ -13,8 +13,6 @@ import Defaults from "./Defaults";
 import clamp from "clamp";
 import { styles } from "./Styles";
 
-const SWIPE_THRESHOLD = 120; //TODO threshold of action sensitivity
-
 //Components could be unloaded and loaded and we will loose the users currentIndex, we can persist it here.
 let currentIndex = {};
 let guid = 0;
@@ -89,9 +87,9 @@ export default class SwipeCards extends Component {
         }
 
         const hasSwipedHorizontally =
-          Math.abs(this.state.pan.x._value) > SWIPE_THRESHOLD;
+          Math.abs(this.state.pan.x._value) > this.props.swipeThreshold;
         const hasSwipedVertically =
-          Math.abs(this.state.pan.y._value) > SWIPE_THRESHOLD;
+          Math.abs(this.state.pan.y._value) > this.props.swipeThreshold;
         if (
           hasSwipedHorizontally ||
           (hasSwipedVertically && this.props.hasMaybeAction)
@@ -448,148 +446,114 @@ export default class SwipeCards extends Component {
     );
   }
 
+  renderAction(opacity, scale, props) {
+    let animatedStyles = {
+      transform: [{ scale: scale }],
+      opacity: opacity,
+    };
+
+    return (
+      <Animated.View
+        style={[
+          styles.action,
+          { borderColor: props.color },
+          animatedStyles,
+          props.containerStyle,
+        ]}
+      >
+        {props.view ? (
+          props.view
+        ) : (
+          <Defaults.ActionView
+            text={props.text}
+            color={props.color}
+            style={props.textStyle}
+          />
+        )}
+      </Animated.View>
+    );
+  }
+
   renderNope() {
     let { pan } = this.state;
-
     let nopeOpacity = pan.x.interpolate({
-      inputRange: [-SWIPE_THRESHOLD, -(SWIPE_THRESHOLD / 2)],
+      inputRange: [
+        -this.props.swipeThreshold,
+        -(this.props.swipeThreshold / 2),
+      ],
       outputRange: [1, 0],
       extrapolate: "clamp",
     });
     let nopeScale = pan.x.interpolate({
-      inputRange: [-SWIPE_THRESHOLD, 0],
+      inputRange: [-this.props.swipeThreshold, 0],
       outputRange: [1, 0],
       extrapolate: "clamp",
     });
-    let animatedNopeStyles = {
-      transform: [{ scale: nopeScale }],
-      opacity: nopeOpacity,
-    };
 
-    if (this.props.renderNope) {
-      return this.props.renderNope(pan);
-    }
-
-    if (this.props.showNope) {
-      const inner = this.props.nopeView ? (
-        this.props.nopeView
-      ) : (
-        <Text style={[styles.nopeText, this.props.nopeTextStyle]}>
-          {this.props.nopeText}
-        </Text>
-      );
-
-      return (
-        <Animated.View
-          style={[styles.nope, this.props.nopeStyle, animatedNopeStyles]}
-        >
-          {inner}
-        </Animated.View>
-      );
-    }
-
-    return null;
+    return this.renderAction(nopeOpacity, nopeScale, this.props.actions.nope);
   }
 
   renderMaybe() {
-    if (!this.props.hasMaybeAction) return null;
-
     let { pan } = this.state;
-
     let maybeOpacity = pan.y.interpolate({
-      inputRange: [-SWIPE_THRESHOLD, -(SWIPE_THRESHOLD / 2)],
+      inputRange: [
+        -this.props.swipeThreshold,
+        -(this.props.swipeThreshold / 2),
+      ],
       outputRange: [1, 0],
       extrapolate: "clamp",
     });
     let maybeScale = pan.x.interpolate({
-      inputRange: [-SWIPE_THRESHOLD, 0, SWIPE_THRESHOLD],
+      inputRange: [-this.props.swipeThreshold, 0, this.props.swipeThreshold],
       outputRange: [0, 1, 0],
       extrapolate: "clamp",
     });
-    let animatedMaybeStyles = {
-      transform: [{ scale: maybeScale }],
-      opacity: maybeOpacity,
-    };
 
-    if (this.props.renderMaybe) {
-      return this.props.renderMaybe(pan);
-    }
-
-    if (this.props.showMaybe) {
-      const inner = this.props.maybeView ? (
-        this.props.maybeView
-      ) : (
-        <Text style={[styles.maybeText, this.props.maybeTextStyle]}>
-          {this.props.maybeText}
-        </Text>
-      );
-
-      return (
-        <Animated.View
-          style={[styles.maybe, this.props.maybeStyle, animatedMaybeStyles]}
-        >
-          {inner}
-        </Animated.View>
-      );
-    }
-
-    return null;
+    return this.renderAction(
+      maybeOpacity,
+      maybeScale,
+      this.props.actions.maybe
+    );
   }
 
   renderYup() {
     let { pan } = this.state;
-
     let yupOpacity = pan.x.interpolate({
-      inputRange: [SWIPE_THRESHOLD / 2, SWIPE_THRESHOLD],
+      inputRange: [this.props.swipeThreshold / 2, this.props.swipeThreshold],
       outputRange: [0, 1],
       extrapolate: "clamp",
     });
     let yupScale = pan.x.interpolate({
-      inputRange: [0, SWIPE_THRESHOLD],
+      inputRange: [0, this.props.swipeThreshold],
       outputRange: [0.5, 1],
       extrapolate: "clamp",
     });
-    let animatedYupStyles = {
-      transform: [{ scale: yupScale }],
-      opacity: yupOpacity,
-    };
 
-    if (this.props.renderYup) {
-      return this.props.renderYup(pan);
-    }
-
-    if (this.props.showYup) {
-      const inner = this.props.yupView ? (
-        this.props.yupView
-      ) : (
-        <Text style={[styles.yupText, this.props.yupTextStyle]}>
-          {this.props.yupText}
-        </Text>
-      );
-
-      return (
-        <Animated.View
-          style={[styles.yup, this.props.yupStyle, animatedYupStyles]}
-        >
-          {inner}
-        </Animated.View>
-      );
-    }
-
-    return null;
+    return this.renderAction(yupOpacity, yupScale, this.props.actions.yup);
   }
 
   render() {
     return (
       <View style={[styles.container, this.props.style]}>
         {this.props.stack ? this.renderStack() : this.renderCard()}
-        {this.renderNope()}
-        {this.renderMaybe()}
-        {this.renderYup()}
+        {this.props.actions.nope.show && this.renderNope()}
+        {this.props.hasMaybeAction &&
+          this.props.actions.maybe.show &&
+          this.renderMaybe()}
+        {this.props.actions.yup.show && this.renderYup()}
       </View>
     );
   }
 }
+
+const actionShape = PropTypes.shape({
+  show: PropTypes.bool,
+  view: PropTypes.element, // takes priority over text + color
+  containerStyle: ViewPropTypes.style,
+  textStyle: ViewPropTypes.style,
+  text: PropTypes.string,
+  color: PropTypes.string,
+});
 
 SwipeCards.propTypes = {
   cards: PropTypes.array,
@@ -603,24 +567,14 @@ SwipeCards.propTypes = {
   stackOffsetX: PropTypes.number,
   stackOffsetY: PropTypes.number,
   renderNoMoreCards: PropTypes.func,
-  showYup: PropTypes.bool,
-  showMaybe: PropTypes.bool,
-  showNope: PropTypes.bool,
+  actions: PropTypes.shape({
+    yup: actionShape,
+    nope: actionShape,
+    maybe: actionShape,
+  }),
   handleYup: PropTypes.func,
   handleMaybe: PropTypes.func,
   handleNope: PropTypes.func,
-  yupText: PropTypes.string,
-  yupView: PropTypes.element,
-  yupStyle: ViewPropTypes.style,
-  renderYup: PropTypes.func,
-  maybeText: PropTypes.string,
-  maybeView: PropTypes.element,
-  maybeStyle: ViewPropTypes.style,
-  renderMaybe: PropTypes.func,
-  nopeText: PropTypes.string,
-  nopeView: PropTypes.element,
-  nopeStyle: ViewPropTypes.style,
-  renderNope: PropTypes.func,
   onClickHandler: PropTypes.func,
   onDragStart: PropTypes.func,
   onDragRelease: PropTypes.func,
@@ -630,6 +584,7 @@ SwipeCards.propTypes = {
   dragY: PropTypes.bool,
   smoothTransition: PropTypes.bool,
   keyExtractor: PropTypes.func.isRequired,
+  swipeThreshold: PropTypes.number,
 };
 
 SwipeCards.defaultProps = {
@@ -642,21 +597,21 @@ SwipeCards.defaultProps = {
   stackDepth: 5,
   stackOffsetX: 25,
   stackOffsetY: 0,
-  showYup: true,
-  showMaybe: true,
-  showNope: true,
-  handleYup: (card) => null,
-  handleMaybe: (card) => null,
-  handleNope: (card) => null,
-  nopeText: "Nope!",
-  maybeText: "Maybe!",
-  yupText: "Yup!",
+  actions: {
+    yup: { show: true, text: "Yup!", color: "green" },
+    nope: { show: true, text: "Nope!", color: "red" },
+    maybe: { show: true, text: "Maybe!", color: "orange" },
+  },
+  handleYup: () => null,
+  handleMaybe: () => null,
+  handleNope: () => null,
   onClickHandler: () => {},
   onDragStart: () => {},
   onDragRelease: () => {},
-  cardRemoved: (ix) => null,
-  renderCard: (card) => null,
+  cardRemoved: () => null,
+  renderCard: () => null,
   dragY: true,
   smoothTransition: false,
   keyExtractor: undefined,
+  swipeThreshold: 120,
 };
