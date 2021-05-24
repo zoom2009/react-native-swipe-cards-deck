@@ -9,9 +9,9 @@ import {
   PanResponder,
   ViewPropTypes,
 } from "react-native";
-import Defaults from "./defaults";
+import Defaults from "./Defaults";
 import clamp from "clamp";
-import { styles } from "./styles";
+import { styles } from "./Styles";
 
 const SWIPE_THRESHOLD = 120; //TODO threshold of action sensitivity
 

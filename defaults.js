@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import { Text, View } from "react-native";
-import { defaultsStyles } from "./styles";
+import { defaultsStyles } from "./Styles";
 
 class NoMoreCards extends Component {
   constructor(props) {
