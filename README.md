@@ -21,7 +21,7 @@ If you liked our contribution, please try out swaplet - the free home exchange p
 
 We would love to get your feedback!
 
-## 🎉 Version 0.3 is coming up! 🎉
+## 🎉 Version 0.3 is coming soon! 🎉
 There are major/breaking changes described in the readme, but they are for the better!
 
 + Controll over swipe sensetivity
