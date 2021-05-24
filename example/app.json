@@ -1,0 +1,12 @@
+{
+  "name": "rn-swipe-cards-deck-test",
+  "displayName": "rn-swipe-cards-deck-test",
+  "expo": {
+    "name": "rn-swipe-cards-deck-test",
+    "slug": "rn-swipe-cards-deck-test",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
