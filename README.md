@@ -145,8 +145,9 @@ const styles = StyleSheet.create({
 | ⚠️ renderYup      | Function | Renders Yup                                                                    |              | deprecated           |
 | ⚠️ renderNope     | Function | Renders Nope                                                                   |              | deprecated           |
 | ⚠️ renderMaybe    | Function | Renders Maybe                                                                  |              | deprecated           |
-| handleYup         | Function | Called when card is 'passed' with that card's data, returns true for success   |              |                      |
-| handleNope        | Function | Called when card is 'rejected' with that card's data, returns true for success |              |                      |
+| ⚠️ handleYup      | Function | Called when card is 'passed' with that card's data, returns true for success   |              | deprecated           |
+| ⚠️ handleNope     | Function | Called when card is 'rejected' with that card's data, returns true for success |              | deprecated           |
+| ⚠️ handleMaybe    | Function | Called when card is 'maybe' with that card's data, returns true for success    |              | deprecated           |
 | containerStyle    | style    | Override default style                                                         |              |                      |
 | ⚠️ yupStyle       | style    | Override default style                                                         |              |                      |
 | ⚠️ yupTextStyle   | style    | Override default style                                                         |              | use `actions` instead  |
@@ -190,7 +191,8 @@ interface Action {
   color: string, // for customizing the color of text-in-a-box default view of the action
   containerStyle: ViewProps.style, // customing the style of the animated container (the box of text-in-a-box view)
   textStyle: TextViewProps.style, // customing the style of the text in text-in-a-box view
-  view: ReactElement // when set, uses the custom view instead of the default text-in-a-box - takes priority on text/color
+  view: ReactElement, // when set, uses the custom view instead of the default text-in-a-box - takes priority on text/color
+  onAction: function, // a function to handle on action fired
 }
 
 interface Actions {
