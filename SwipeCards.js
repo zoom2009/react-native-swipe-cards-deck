@@ -17,6 +17,28 @@ import { styles } from "./Styles";
 let currentIndex = {};
 let guid = 0;
 
+const actionShape = PropTypes.shape({
+  show: PropTypes.bool,
+  view: PropTypes.element, // takes priority over text + color
+  containerStyle: ViewPropTypes.style,
+  textStyle: ViewPropTypes.style,
+  text: PropTypes.string,
+  color: PropTypes.string,
+  onAction: PropTypes.func, // triggered on action, given card data, must return true if success
+});
+
+const defaultActionsProp = {
+  yup: { show: true, text: "Yup!", color: "green" },
+  nope: { show: true, text: "Nope!", color: "red" },
+  maybe: { show: true, text: "Maybe!", color: "orange" },
+};
+
+const mergeActionProps = (actionsProps) => ({
+  yup: { ...defaultActionsProp.yup, ...actionsProps.yup },
+  nope: { ...defaultActionsProp.nope, ...actionsProps.nope },
+  maybe: { ...defaultActionsProp.maybe, ...actionsProps.maybe },
+});
+
 export default class SwipeCards extends Component {
   constructor(props) {
     super(props);
@@ -35,6 +57,7 @@ export default class SwipeCards extends Component {
 
     this.lastX = 0;
     this.lastY = 0;
+    this.mergedActionsProps = mergeActionProps(this.props.actions);
 
     this.cardAnimation = null;
 
@@ -243,6 +266,10 @@ export default class SwipeCards extends Component {
         card: this.props.cards[0],
       });
       this._resetState();
+    }
+
+    if (prevProps.actions !== this.props.actions) {
+      this.mergedActionsProps = mergeActionProps(this.props.actions);
     }
   }
 
@@ -490,7 +517,11 @@ export default class SwipeCards extends Component {
       extrapolate: "clamp",
     });
 
-    return this.renderAction(nopeOpacity, nopeScale, this.props.actions.nope);
+    return this.renderAction(
+      nopeOpacity,
+      nopeScale,
+      this.mergedActionsProps.nope
+    );
   }
 
   renderMaybe() {
@@ -512,7 +543,7 @@ export default class SwipeCards extends Component {
     return this.renderAction(
       maybeOpacity,
       maybeScale,
-      this.props.actions.maybe
+      this.mergedActionsProps.maybe
     );
   }
 
@@ -529,31 +560,22 @@ export default class SwipeCards extends Component {
       extrapolate: "clamp",
     });
 
-    return this.renderAction(yupOpacity, yupScale, this.props.actions.yup);
+    return this.renderAction(yupOpacity, yupScale, this.mergedActionsProps.yup);
   }
 
   render() {
     return (
       <View style={[styles.container, this.props.style]}>
         {this.props.stack ? this.renderStack() : this.renderCard()}
-        {this.props.actions.nope.show && this.renderNope()}
+        {this.mergedActionsProps.nope.show && this.renderNope()}
         {this.props.hasMaybeAction &&
-          this.props.actions.maybe.show &&
+          this.mergedActionsProps.maybe.show &&
           this.renderMaybe()}
-        {this.props.actions.yup.show && this.renderYup()}
+        {this.mergedActionsProps.yup.show && this.renderYup()}
       </View>
     );
   }
 }
-
-const actionShape = PropTypes.shape({
-  show: PropTypes.bool,
-  view: PropTypes.element, // takes priority over text + color
-  containerStyle: ViewPropTypes.style,
-  textStyle: ViewPropTypes.style,
-  text: PropTypes.string,
-  color: PropTypes.string,
-});
 
 SwipeCards.propTypes = {
   cards: PropTypes.array,
@@ -597,11 +619,7 @@ SwipeCards.defaultProps = {
   stackDepth: 5,
   stackOffsetX: 25,
   stackOffsetY: 0,
-  actions: {
-    yup: { show: true, text: "Yup!", color: "green" },
-    nope: { show: true, text: "Nope!", color: "red" },
-    maybe: { show: true, text: "Maybe!", color: "orange" },
-  },
+  actions: defaultActionsProp,
   handleYup: () => null,
   handleMaybe: () => null,
   handleNope: () => null,
