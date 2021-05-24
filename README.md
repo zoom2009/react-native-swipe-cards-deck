@@ -21,8 +21,12 @@ If you liked our contribution, please try out swaplet - the free home exchange p
 
 We would love to get your feedback!
 
-## 🎉 Version 3.0 is coming up! 🎉
+## 🎉 Version 0.3 is coming up! 🎉
 There are major/breaking changes described in the readme, but they are for the better!
+
++ Controll over swipe sensetivity
++ Better & more stable code
++ 
 
 We are very excited to get feedback from you...
 
@@ -126,7 +130,7 @@ const styles = StyleSheet.create({
 ```
 
 ### Props
-|       Name        | Type     | Description                                                                    | Default      | v3.0 changes & notes |
+|       Name        | Type     | Description                                                                    | Default      | v0.3 changes & notes |
 |-------------------|----------|--------------------------------------------------------------------------------|--------------|----------------------|
 | cards*            | Array    | Data that will be provided as props for the cards                              |              |                      |
 | renderCard*       | Function | Renders the card with the current data                                         |              |                      |
@@ -169,7 +173,7 @@ const styles = StyleSheet.create({
 | ✨ swipeThreshold | Number   | Sets the sensitivity of the card swipping (until nope/yup/maybe)               | 120          | new                  |
 
 ### Functions
-|      Name              |           Description                  |   Arguments     |    Return value    | v3.0 changes & notes |
+|      Name              |           Description                  |   Arguments     |    Return value    | v0.3 changes & notes |
 |------------------------|----------------------------------------|-----------------|--------------------|----------------------|
 | ⚠️ _forceRightSwipe    | Fires swipe right animation            |                 |                    | deprecated           |
 | ⚠️ _forceLeftSwipe     | Fires swipe left animation             |                 |                    | deprecated           |
@@ -223,4 +227,4 @@ Contact me if you have questions...
 - [X] Fix dragY not working
 - [X] Fix iOS stack
 - [ ] Refactor code to be cleaner - v3.0
-- [ ] Add typescript types
+- [ ] Move to typescript
