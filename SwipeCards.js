@@ -124,14 +124,22 @@ export default class SwipeCards extends Component {
           const hasMovedUp = hasSwipedVertically && this.state.pan.y._value < 0;
 
           let cancelled = false;
-          if (hasMovedRight) {
-            cancelled = !(await this.props.handleYup(this.state.card));
-          } else if (hasMovedLeft) {
-            cancelled = !(await this.props.handleNope(this.state.card));
-          } else if (hasMovedUp && this.props.hasMaybeAction) {
-            cancelled = !(await this.props.handleMaybe(this.state.card));
-          } else {
-            cancelled = true;
+          if (hasMovedRight && this.mergedActionsProps.yup.onAction) {
+            cancelled = !(await this.mergedActionsProps.yup.onAction(
+              this.state.card
+            ));
+          } else if (hasMovedLeft && this.mergedActionsProps.nope.onAction) {
+            cancelled = !(await this.mergedActionsProps.nope.onAction(
+              this.state.card
+            ));
+          } else if (
+            hasMovedUp &&
+            this.props.hasMaybeAction &&
+            this.mergedActionsProps.maybe.onAction
+          ) {
+            cancelled = !(await this.mergedActionsProps.maybe.onAction(
+              this.state.card
+            ));
           }
 
           //Yup or nope was cancelled, return the card to normal.
@@ -594,9 +602,6 @@ SwipeCards.propTypes = {
     nope: actionShape,
     maybe: actionShape,
   }),
-  handleYup: PropTypes.func,
-  handleMaybe: PropTypes.func,
-  handleNope: PropTypes.func,
   onClickHandler: PropTypes.func,
   onDragStart: PropTypes.func,
   onDragRelease: PropTypes.func,
@@ -620,9 +625,6 @@ SwipeCards.defaultProps = {
   stackOffsetX: 25,
   stackOffsetY: 0,
   actions: defaultActionsProp,
-  handleYup: () => null,
-  handleMaybe: () => null,
-  handleNope: () => null,
   onClickHandler: () => {},
   onDragStart: () => {},
   onDragRelease: () => {},
