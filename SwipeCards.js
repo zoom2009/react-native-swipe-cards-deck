@@ -3,7 +3,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import {
-  Text,
   View,
   Animated,
   PanResponder,
@@ -64,7 +63,7 @@ export default class SwipeCards extends Component {
     this._panResponder = PanResponder.create({
       onMoveShouldSetPanResponderCapture: (e, gestureState) => {
         if (Math.abs(gestureState.dx) > 3 || Math.abs(gestureState.dy) > 3) {
-          this.props.onDragStart();
+          if (this.props.onDragStart) this.props.onDragStart();
           return true;
         }
         return false;
@@ -93,12 +92,13 @@ export default class SwipeCards extends Component {
       ),
 
       onPanResponderRelease: async (e, { vx, vy, dx, dy }) => {
-        this.props.onDragRelease();
+        if (this.props.onDragRelease) this.props.onDragRelease();
         this.state.pan.flattenOffset();
         let velocity;
         if (Math.abs(dx) <= 5 && Math.abs(dy) <= 5) {
           //meaning the gesture did not cover any distance
-          this.props.onClickHandler(this.state.card);
+          if (this.props.onClickHandler)
+            this.props.onClickHandler(this.state.card);
         }
 
         if (vx > 0) {
@@ -128,10 +128,12 @@ export default class SwipeCards extends Component {
             cancelled = !(await this.mergedActionsProps.yup.onAction(
               this.state.card
             ));
+            console.log("SWIPE1");
           } else if (hasMovedLeft && this.mergedActionsProps.nope.onAction) {
             cancelled = !(await this.mergedActionsProps.nope.onAction(
               this.state.card
             ));
+            console.log("SWIPE2");
           } else if (
             hasMovedUp &&
             this.props.hasMaybeAction &&
@@ -140,7 +142,9 @@ export default class SwipeCards extends Component {
             cancelled = !(await this.mergedActionsProps.maybe.onAction(
               this.state.card
             ));
+            console.log("SWIPE3");
           }
+          console.log("SWIPE_CANCELLED=", cancelled);
 
           //Yup or nope was cancelled, return the card to normal.
           if (cancelled) {
@@ -208,7 +212,7 @@ export default class SwipeCards extends Component {
 
       this.cardAnimation = null;
     });
-    this.props.cardRemoved(currentIndex[this.guid]);
+    if (this.props.cardRemoved) this.props.cardRemoved(currentIndex[this.guid]);
   }
 
   swipeMaybe = () => this._forceUpSwipe();
@@ -224,7 +228,7 @@ export default class SwipeCards extends Component {
       currentIndex[this.guid] > this.state.cards.length - 1 &&
       this.props.loop
     ) {
-      this.props.onLoop();
+      if (this.props.onLoop) this.props.onLoop();
       currentIndex[this.guid] = 0;
     }
 
@@ -586,7 +590,7 @@ export default class SwipeCards extends Component {
 }
 
 SwipeCards.propTypes = {
-  cards: PropTypes.array,
+  cards: PropTypes.array.isRequired,
   hasMaybeAction: PropTypes.bool,
   loop: PropTypes.bool,
   onLoop: PropTypes.func,
@@ -606,7 +610,7 @@ SwipeCards.propTypes = {
   onDragStart: PropTypes.func,
   onDragRelease: PropTypes.func,
   cardRemoved: PropTypes.func,
-  renderCard: PropTypes.func,
+  renderCard: PropTypes.func.isRequired,
   style: ViewPropTypes.style,
   dragY: PropTypes.bool,
   smoothTransition: PropTypes.bool,
@@ -618,20 +622,13 @@ SwipeCards.defaultProps = {
   cards: [],
   hasMaybeAction: false,
   loop: false,
-  onLoop: () => null,
   allowGestureTermination: true,
   stack: false,
   stackDepth: 5,
   stackOffsetX: 25,
   stackOffsetY: 0,
   actions: defaultActionsProp,
-  onClickHandler: () => {},
-  onDragStart: () => {},
-  onDragRelease: () => {},
-  cardRemoved: () => null,
-  renderCard: () => null,
   dragY: true,
   smoothTransition: false,
-  keyExtractor: undefined,
   swipeThreshold: 120,
 };
