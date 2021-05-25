@@ -128,12 +128,10 @@ export default class SwipeCards extends Component {
             cancelled = !(await this.mergedActionsProps.yup.onAction(
               this.state.card
             ));
-            console.log("SWIPE1");
           } else if (hasMovedLeft && this.mergedActionsProps.nope.onAction) {
             cancelled = !(await this.mergedActionsProps.nope.onAction(
               this.state.card
             ));
-            console.log("SWIPE2");
           } else if (
             hasMovedUp &&
             this.props.hasMaybeAction &&
@@ -142,9 +140,7 @@ export default class SwipeCards extends Component {
             cancelled = !(await this.mergedActionsProps.maybe.onAction(
               this.state.card
             ));
-            console.log("SWIPE3");
           }
-          console.log("SWIPE_CANCELLED=", cancelled);
 
           //Yup or nope was cancelled, return the card to normal.
           if (cancelled) {
