@@ -21,6 +21,15 @@ If you liked our contribution, please try out swaplet - the free home exchange p
 
 We would love to get your feedback!
 
+## 🎉 Version 0.3 is coming soon! 🎉
+There are major/breaking changes described in the readme, but they are for the better!
+
++ Controll over swipe sensetivity
++ Better & more stable code
++ Better props handeling
+
+We are very excited to get feedback from you...
+
 ## Quick Start
 1. `npm i react-native-swipe-cards-deck`
 2. Import it `import SwipeCards from "react-native-swipe-cards-deck"`
@@ -120,61 +129,112 @@ const styles = StyleSheet.create({
 });
 ```
 
-### Props
-|       Name        | Type     | Description                                                 | Default      |
-|-------------------|----------|-------------------------------------------------------------|--------------|
-| cards*            | Array    | Data that will be provided as props for the cards           |              |
-| renderCard*       | Function | Renders the card with the current data                      |              |
-| keyExtractor*     | Function | Extracts the key for given card                             |              |
-| loop              | Boolean  | If true, start again when run out of cards                  | `false`      |
-| onLoop            | Function | Called when card list returns to the beginning              |              |
-| renderNoMoreCards | Function | Renders what is shown after swiped last card                |              |
-| showYup           | Boolean  | Shows the 'Yup' component                                   | `true`       |
-| showNope          | Boolean  | Shows the 'Nope'                                            | `true`       |
-| showMaybe         | Boolean  | Shows the 'Maybe'                                           | `true`       |
-| hasMaybeAction    | Boolean  | Includes the possibility to swipe up and its components     | `false`      |
-| renderYup         | Function | Renders Yup                                                 |              |
-| renderNope        | Function | Renders Nope                                                |              |
-| renderMaybe       | Function | Renders Maybe                                               |              |
-| handleYup         | Function | Called when card is 'passed' with that card's data, returns true for success          |              |
-| handleNope        | Function | Called when card is 'rejected' with that card's data, returns true for success        |              |
-| containerStyle    | style    | Override default style                                      |              |
-| yupStyle          | style    | Override default style                                      |              |
-| yupTextStyle      | style    | Override default style                                      |              |
-| nopeStyle         | style    | Override default style                                      |              |
-| nopeTextStyle     | style    | Override default style                                      |              |
-| maybeStyle        | style    | Override default style                                      |              |
-| maybeTextStyle    | style    | Override default style                                      |              |
-| yupView           | element  | React component to render on a Yes vote                     |              |
-| yupText           | string   | Text to render on Yes vote                                  | `Yep`        |
-| nopeView          | element  | React component to render on a No vote                      |              |
-| nopeText          | string   | Text to render on No vote                                   | `Nope`       |
-| maybeView         | element  | React component to render on a Maybe vote                   |              |
-| maybeText         | string   | Text to render on Maybe vote                                | `Maybe`      |
-| smoothTransition  | Boolean  | Disables a slow transition fading the current card out      | `false`      |
-| cardKey           | String   | React key to be used to for each card                       |              |
-| dragY             | Boolean  | Allows dragging cards vertically                            | `true`       |
-| stack             | Boolean  | Enables the stack mode                                      | `false`      |
-| stackDepth        | Number   | Limit number of cards showing in stack mode                 | no limit     |
-| stackOffsetX      | Number   | Horizontal offset between cards in stack                    | 25           |
-| stackOffsetY      | Number   | Vertical offset between cards in stack                      | 0            |
-| cardRemoved       | Function | A callback passing the card reference that just got removed |              |
-| onClickHandler    | Function | A callback clicking the card                                | alert('tap') |
+### Props (> v0.3)
+\* Major changes has been made to consolidate all yup/nope/maybe props to one object (`actions` props) for a cleaner code
+|       Name        | Type     | Description                                                                    | Default      | v0.3 changes & notes |
+|-------------------|----------|--------------------------------------------------------------------------------|--------------|----------------------|
+| cards*            | Array    | Data that will be provided as props for the cards                              |              |                      |
+| renderCard*       | Function | Renders the card with the current data                                         |              |                      |
+| keyExtractor*     | Function | Extracts the key for given card                                                |              |                      |
+| loop              | Boolean  | If true, start again when run out of cards                                     | `false`      |                      |
+| onLoop            | Function | Called when card list returns to the beginning                                 |              |                      |
+| renderNoMoreCards | Function | Renders what is shown after swiped last card                                   |              |                      |
+| hasMaybeAction    | Boolean  | Includes the possibility to swipe up and its components                        | `false`      |                      |
+| containerStyle    | style    | Override default style                                                         |              |                      |
+| smoothTransition  | Boolean  | Disables a slow transition fading the current card out                         | `false`      |                      |
+| cardKey           | String   | React key to be used to for each card                                          |              |                      |
+| dragY             | Boolean  | Allows dragging cards vertically                                               | `true`       |                      |
+| stack             | Boolean  | Enables the stack mode                                                         | `false`      |                      |
+| stackDepth        | Number   | Limit number of cards showing in stack mode                                    | no limit     |                      |
+| stackOffsetX      | Number   | Horizontal offset between cards in stack                                       | 25           |                      |
+| stackOffsetY      | Number   | Vertical offset between cards in stack                                         | 0            |                      |
+| cardRemoved       | Function | A callback passing the card reference that just got removed                    |              |                      |
+| onClickHandler    | Function | A callback clicking the card                                                   | alert('tap') |                      |
+| ✨ actions        | Actions  | Sets show, text, color, style, view for nope, yup, maybe actions               |              | Interface defined ⬇️ |
+| ✨ swipeThreshold | Number   | Sets the sensitivity of the card swipping (until nope/yup/maybe)               | 120          | new                  |
+
+## Deprecated props (< v0.3)
+|       Name        | Type     | Description                                                                    | Default      | v0.3 changes & notes  |
+|-------------------|----------|--------------------------------------------------------------------------------|--------------|-----------------------|
+| ⚠️ showYup        | Boolean  | Shows the 'Yup' component                                                      | `true`       | use `actions` instead |
+| ⚠️ showNope       | Boolean  | Shows the 'Nope'                                                               | `true`       | use `actions` instead |
+| ⚠️ showMaybe      | Boolean  | Shows the 'Maybe'                                                              | `true`       | use `actions` instead |
+| ⚠️ renderYup      | Function | Renders Yup                                                                    |              | use `actions` instead |
+| ⚠️ renderNope     | Function | Renders Nope                                                                   |              | use `actions` instead |
+| ⚠️ renderMaybe    | Function | Renders Maybe                                                                  |              | use `actions` instead |
+| ⚠️ handleYup      | Function | Called when card is 'passed' with that card's data, returns true for success   |              | use `actions` instead |
+| ⚠️ handleNope     | Function | Called when card is 'rejected' with that card's data, returns true for success |              | use `actions` instead |
+| ⚠️ handleMaybe    | Function | Called when card is 'maybe' with that card's data, returns true for success    |              | use `actions` instead |
+| ⚠️ yupStyle       | style    | Override default style                                                         |              | use `actions` instead |
+| ⚠️ yupTextStyle   | style    | Override default style                                                         |              | use `actions` instead |
+| ⚠️ nopeStyle      | style    | Override default style                                                         |              | use `actions` instead |
+| ⚠️ nopeTextStyle  | style    | Override default style                                                         |              | use `actions` instead |
+| ⚠️ maybeStyle     | style    | Override default style                                                         |              | use `actions` instead |
+| ⚠️ maybeTextStyle | style    | Override default style                                                         |              | use `actions` instead |
+| ⚠️ yupView        | element  | React component to render on a Yes vote                                        |              | use `actions` instead |
+| ⚠️ yupText        | string   | Text to render on Yes vote                                                     | `Yep`        | use `actions` instead |
+| ⚠️ nopeView       | element  | React component to render on a No vote                                         |              | use `actions` instead |
+| ⚠️ nopeText       | string   | Text to render on No vote                                                      | `Nope`       | use `actions` instead |
+| ⚠️ maybeView      | element  | React component to render on a Maybe vote                                      |              | use `actions` instead |
+| ⚠️ maybeText      | string   | Text to render on Maybe vote                                                   | `Maybe`      | use `actions` instead |
 
 ### Functions
-|      Name              |           Description                  |   Arguments     |    Return value    |
-|------------------------|----------------------------------------|-----------------|--------------------|
-| _forceRightSwipe       | Fires swipe right animation            |                 |                    |
-| _forceLeftSwipe        | Fires swipe left animation             |                 |                    |
-| _forceUpSwipe          | Fires swipe up animation               |                 |                    |
+|      Name              |           Description                  |   Arguments     |    Return value    | v0.3 changes & notes |
+|------------------------|----------------------------------------|-----------------|--------------------|----------------------|
+| ⚠️ _forceRightSwipe    | Fires swipe right animation            |                 |                    | deprecated           |
+| ⚠️ _forceLeftSwipe     | Fires swipe left animation             |                 |                    | deprecated           |
+| ⚠️ _forceUpSwipe       | Fires swipe up animation               |                 |                    | deprecated           |
+| ✨ swipeMaybe          | Fires swipe maybe action               |                 |                    | new                  |
+| ✨ swipeYup            | Fires swipe yup action                 |                 |                    | new                  |
+| ✨ swipeNope           | Fires swipe nope action                |                 |                    | new                  |
 
+### Interfaces (> v0.3)
+```javascript
+interface Action {
+  show: boolean, // if to show the view when the action occur, this doesn't disable the action from happening!
+  text: string, // for customizing the text in text-in-a-box default view of the action
+  color: string, // for customizing the color of text-in-a-box default view of the action
+  containerStyle: ViewProps.style, // customing the style of the animated container (the box of text-in-a-box view)
+  textStyle: TextViewProps.style, // customing the style of the text in text-in-a-box view
+  view: ReactElement, // when set, uses the custom view instead of the default text-in-a-box - takes priority on text/color
+  onAction: function, // a function to handle on action fired, must return true if successful or false if failed
+}
+
+interface Actions {
+  yup: Action,
+  nope: Action,
+  maybe: Action
+}
+
+// Unifying the property for nope/yup/maybe makes it easier & cleaner to apply
+// These are the default values for actions prop
+actions: {
+  yup: { show: true, text: "Yup!", color: "green" },
+  nope: { show: true, text: "Nope!", color: "red" },
+  maybe: { show: true, text: "Maybe!", color: "orange" },
+}
+```
+example of customizing actions prop:
+```javascript
+const actions = {
+  maybe: { show: false }, 
+} // this will override the defaults value **ONLY** of maybe and will not show the text-in-a-box when triggered (but will show for yup/nope)
+
+<SwipeCards
+  cards={...}
+  renderCard={...}
+  keyExtractor={...}
+  actions={actions}
+  ...
+  />
+```
 
 *required
 
 ### PRs are welcome
 Just stick with the git standards and implement a good code.
 
-Please use branch prefix (hotfix/feature).
+Please use branch prefix (fix/feature).
 
 Contact me if you have questions...
 
@@ -186,5 +246,6 @@ Contact me if you have questions...
 - [X] Fix stack mode
 - [ ] Unit testing
 - [X] Fix dragY not working
-- [ ] useHooks instead
-- [ ] Convert class components to functional components
+- [X] Fix iOS stack
+- [ ] Refactor code to be cleaner - v3.0
+- [ ] Move to typescript
