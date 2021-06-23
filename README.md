@@ -234,7 +234,7 @@ const actions = {
 ### PRs are welcome
 Just stick with the git standards and implement a good code.
 
-Please use branch prefix (hotfix/feature).
+Please use branch prefix (fix/feature).
 
 Contact me if you have questions...
 
