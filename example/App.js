@@ -60,9 +60,11 @@ export default function App() {
           renderCard={(cardData) => <Card data={cardData} />}
           keyExtractor={(cardData) => String(cardData.text)}
           renderNoMoreCards={() => <StatusCard text="No more cards..." />}
-          handleYup={handleYup}
-          handleNope={handleNope}
-          handleMaybe={handleMaybe}
+          actions={{
+            nope: { onAction: handleNope },
+            yup: { onAction: handleYup },
+            maybe: { onAction: handleMaybe },
+          }}
           hasMaybeAction={true}
           stackOffsetY={10}
           stackOffsetX={10}
