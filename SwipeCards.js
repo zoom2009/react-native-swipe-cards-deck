@@ -2,74 +2,36 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-
-import {
-  StyleSheet,
-  Text,
-  View,
-  Animated,
-  PanResponder,
-  Dimensions,
-  ViewPropTypes,
-} from "react-native";
-
-import Defaults from "./Defaults.js";
+import { View, Animated, PanResponder, ViewPropTypes } from "react-native";
+import Defaults from "./Defaults";
 import clamp from "clamp";
-
-const viewport = Dimensions.get("window");
-const SWIPE_THRESHOLD = 120;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "transparent",
-  },
-  yup: {
-    borderColor: "green",
-    borderWidth: 2,
-    position: "absolute",
-    padding: 20,
-    bottom: 20,
-    borderRadius: 5,
-    right: 0,
-  },
-  yupText: {
-    fontSize: 16,
-    color: "green",
-  },
-  maybe: {
-    borderColor: "blue",
-    borderWidth: 2,
-    position: "absolute",
-    padding: 20,
-    bottom: 20,
-    borderRadius: 5,
-    right: 20,
-  },
-  maybeText: {
-    fontSize: 16,
-    color: "blue",
-  },
-  nope: {
-    borderColor: "red",
-    borderWidth: 2,
-    position: "absolute",
-    bottom: 20,
-    padding: 20,
-    borderRadius: 5,
-    left: 0,
-  },
-  nopeText: {
-    fontSize: 16,
-    color: "red",
-  },
-});
+import { styles } from "./Styles";
 
 //Components could be unloaded and loaded and we will loose the users currentIndex, we can persist it here.
 let currentIndex = {};
 let guid = 0;
+
+const actionShape = PropTypes.shape({
+  show: PropTypes.bool,
+  view: PropTypes.element, // takes priority over text + color
+  containerStyle: ViewPropTypes.style,
+  textStyle: ViewPropTypes.style,
+  text: PropTypes.string,
+  color: PropTypes.string,
+  onAction: PropTypes.func, // triggered on action, given card data, must return true if success
+});
+
+const defaultActionsProp = {
+  yup: { show: true, text: "Yup!", color: "green" },
+  nope: { show: true, text: "Nope!", color: "red" },
+  maybe: { show: true, text: "Maybe!", color: "orange" },
+};
+
+const mergeActionProps = (actionsProps) => ({
+  yup: { ...defaultActionsProp.yup, ...actionsProps.yup },
+  nope: { ...defaultActionsProp.nope, ...actionsProps.nope },
+  maybe: { ...defaultActionsProp.maybe, ...actionsProps.maybe },
+});
 
 export default class SwipeCards extends Component {
   constructor(props) {
@@ -89,13 +51,14 @@ export default class SwipeCards extends Component {
 
     this.lastX = 0;
     this.lastY = 0;
+    this.mergedActionsProps = mergeActionProps(this.props.actions);
 
     this.cardAnimation = null;
 
     this._panResponder = PanResponder.create({
       onMoveShouldSetPanResponderCapture: (e, gestureState) => {
         if (Math.abs(gestureState.dx) > 3 || Math.abs(gestureState.dy) > 3) {
-          this.props.onDragStart();
+          if (this.props.onDragStart) this.props.onDragStart();
           return true;
         }
         return false;
@@ -124,12 +87,13 @@ export default class SwipeCards extends Component {
       ),
 
       onPanResponderRelease: async (e, { vx, vy, dx, dy }) => {
-        this.props.onDragRelease();
+        if (this.props.onDragRelease) this.props.onDragRelease();
         this.state.pan.flattenOffset();
         let velocity;
         if (Math.abs(dx) <= 5 && Math.abs(dy) <= 5) {
           //meaning the gesture did not cover any distance
-          this.props.onClickHandler(this.state.card);
+          if (this.props.onClickHandler)
+            this.props.onClickHandler(this.state.card);
         }
 
         if (vx > 0) {
@@ -141,9 +105,9 @@ export default class SwipeCards extends Component {
         }
 
         const hasSwipedHorizontally =
-          Math.abs(this.state.pan.x._value) > SWIPE_THRESHOLD;
+          Math.abs(this.state.pan.x._value) > this.props.swipeThreshold;
         const hasSwipedVertically =
-          Math.abs(this.state.pan.y._value) > SWIPE_THRESHOLD;
+          Math.abs(this.state.pan.y._value) > this.props.swipeThreshold;
         if (
           hasSwipedHorizontally ||
           (hasSwipedVertically && this.props.hasMaybeAction)
@@ -155,14 +119,22 @@ export default class SwipeCards extends Component {
           const hasMovedUp = hasSwipedVertically && this.state.pan.y._value < 0;
 
           let cancelled = false;
-          if (hasMovedRight) {
-            cancelled = !(await this.props.handleYup(this.state.card));
-          } else if (hasMovedLeft) {
-            cancelled = !(await this.props.handleNope(this.state.card));
-          } else if (hasMovedUp && this.props.hasMaybeAction) {
-            cancelled = !(await this.props.handleMaybe(this.state.card));
-          } else {
-            cancelled = true;
+          if (hasMovedRight && this.mergedActionsProps.yup.onAction) {
+            cancelled = !(await this.mergedActionsProps.yup.onAction(
+              this.state.card
+            ));
+          } else if (hasMovedLeft && this.mergedActionsProps.nope.onAction) {
+            cancelled = !(await this.mergedActionsProps.nope.onAction(
+              this.state.card
+            ));
+          } else if (
+            hasMovedUp &&
+            this.props.hasMaybeAction &&
+            this.mergedActionsProps.maybe.onAction
+          ) {
+            cancelled = !(await this.mergedActionsProps.maybe.onAction(
+              this.state.card
+            ));
           }
 
           //Yup or nope was cancelled, return the card to normal.
@@ -171,7 +143,8 @@ export default class SwipeCards extends Component {
             return;
           }
 
-          this.props.cardRemoved(currentIndex[this.guid]);
+          if (this.props.cardRemoved)
+            this.props.cardRemoved(currentIndex[this.guid]);
 
           if (this.props.smoothTransition) {
             this._advanceState();
@@ -205,7 +178,7 @@ export default class SwipeCards extends Component {
 
       this.cardAnimation = null;
     });
-    this.props.cardRemoved(currentIndex[this.guid]);
+    if (this.props.cardRemoved) this.props.cardRemoved(currentIndex[this.guid]);
   }
 
   _forceUpSwipe() {
@@ -218,7 +191,7 @@ export default class SwipeCards extends Component {
 
       this.cardAnimation = null;
     });
-    this.props.cardRemoved(currentIndex[this.guid]);
+    if (this.props.cardRemoved) this.props.cardRemoved(currentIndex[this.guid]);
   }
 
   _forceRightSwipe() {
@@ -231,8 +204,12 @@ export default class SwipeCards extends Component {
 
       this.cardAnimation = null;
     });
-    this.props.cardRemoved(currentIndex[this.guid]);
+    if (this.props.cardRemoved) this.props.cardRemoved(currentIndex[this.guid]);
   }
+
+  swipeMaybe = () => this._forceUpSwipe();
+  swipeYup = () => this._forceRightSwipe();
+  swipeNope = () => this._forceLeftSwipe();
 
   _goToNextCard() {
     currentIndex[this.guid]++;
@@ -243,7 +220,7 @@ export default class SwipeCards extends Component {
       currentIndex[this.guid] > this.state.cards.length - 1 &&
       this.props.loop
     ) {
-      this.props.onLoop();
+      if (this.props.onLoop) this.props.onLoop();
       currentIndex[this.guid] = 0;
     }
 
@@ -294,23 +271,11 @@ export default class SwipeCards extends Component {
       });
       this._resetState();
     }
+
+    if (prevProps.actions !== this.props.actions) {
+      this.mergedActionsProps = mergeActionProps(this.props.actions);
+    }
   }
-
-  // old implementation
-  //  componentWillReceiveProps(nextProps) {
-  //    if (nextProps.cards !== this.props.cards) {
-  //      if (this.cardAnimation) {
-  //        this.cardAnimation.stop();
-  //        this.cardAnimation = null;
-  //      }
-
-  //      currentIndex[this.guid] = 0;
-  //      this.setState({
-  //        cards: [].concat(nextProps.cards),
-  //        card: nextProps.cards[0],
-  //      });
-  //    }
-  //  }
 
   _resetPan() {
     if (this.state.panResetAnime) this.state.panResetAnime.reset();
@@ -344,11 +309,7 @@ export default class SwipeCards extends Component {
   }
 
   renderNoMoreCards() {
-    if (this.props.renderNoMoreCards) {
-      return this.props.renderNoMoreCards();
-    }
-
-    return <Defaults.NoMoreCards />;
+    return this.props.renderNoMoreCards() || <Defaults.NoMoreCards />;
   }
 
   /**
@@ -516,151 +477,112 @@ export default class SwipeCards extends Component {
     );
   }
 
+  renderAction(opacity, scale, props) {
+    let animatedStyles = {
+      transform: [{ scale: scale }],
+      opacity: opacity,
+    };
+
+    return (
+      <Animated.View
+        style={[
+          styles.action,
+          { borderColor: props.color },
+          animatedStyles,
+          props.containerStyle,
+        ]}
+      >
+        {props.view ? (
+          props.view
+        ) : (
+          <Defaults.ActionView
+            text={props.text}
+            color={props.color}
+            style={props.textStyle}
+          />
+        )}
+      </Animated.View>
+    );
+  }
+
   renderNope() {
     let { pan } = this.state;
-
     let nopeOpacity = pan.x.interpolate({
-      inputRange: [-SWIPE_THRESHOLD, -(SWIPE_THRESHOLD / 2)],
+      inputRange: [
+        -this.props.swipeThreshold,
+        -(this.props.swipeThreshold / 2),
+      ],
       outputRange: [1, 0],
       extrapolate: "clamp",
     });
     let nopeScale = pan.x.interpolate({
-      inputRange: [-SWIPE_THRESHOLD, 0],
+      inputRange: [-this.props.swipeThreshold, 0],
       outputRange: [1, 0],
       extrapolate: "clamp",
     });
-    let animatedNopeStyles = {
-      transform: [{ scale: nopeScale }],
-      opacity: nopeOpacity,
-    };
 
-    if (this.props.renderNope) {
-      return this.props.renderNope(pan);
-    }
-
-    if (this.props.showNope) {
-      const inner = this.props.nopeView ? (
-        this.props.nopeView
-      ) : (
-        <Text style={[styles.nopeText, this.props.nopeTextStyle]}>
-          {this.props.nopeText}
-        </Text>
-      );
-
-      return (
-        <Animated.View
-          style={[styles.nope, this.props.nopeStyle, animatedNopeStyles]}
-        >
-          {inner}
-        </Animated.View>
-      );
-    }
-
-    return null;
+    return this.renderAction(
+      nopeOpacity,
+      nopeScale,
+      this.mergedActionsProps.nope
+    );
   }
 
   renderMaybe() {
-    if (!this.props.hasMaybeAction) return null;
-
     let { pan } = this.state;
-
     let maybeOpacity = pan.y.interpolate({
-      inputRange: [-SWIPE_THRESHOLD, -(SWIPE_THRESHOLD / 2)],
+      inputRange: [
+        -this.props.swipeThreshold,
+        -(this.props.swipeThreshold / 2),
+      ],
       outputRange: [1, 0],
       extrapolate: "clamp",
     });
     let maybeScale = pan.x.interpolate({
-      inputRange: [-SWIPE_THRESHOLD, 0, SWIPE_THRESHOLD],
+      inputRange: [-this.props.swipeThreshold, 0, this.props.swipeThreshold],
       outputRange: [0, 1, 0],
       extrapolate: "clamp",
     });
-    let animatedMaybeStyles = {
-      transform: [{ scale: maybeScale }],
-      opacity: maybeOpacity,
-    };
 
-    if (this.props.renderMaybe) {
-      return this.props.renderMaybe(pan);
-    }
-
-    if (this.props.showMaybe) {
-      const inner = this.props.maybeView ? (
-        this.props.maybeView
-      ) : (
-        <Text style={[styles.maybeText, this.props.maybeTextStyle]}>
-          {this.props.maybeText}
-        </Text>
-      );
-
-      return (
-        <Animated.View
-          style={[styles.maybe, this.props.maybeStyle, animatedMaybeStyles]}
-        >
-          {inner}
-        </Animated.View>
-      );
-    }
-
-    return null;
+    return this.renderAction(
+      maybeOpacity,
+      maybeScale,
+      this.mergedActionsProps.maybe
+    );
   }
 
   renderYup() {
     let { pan } = this.state;
-
     let yupOpacity = pan.x.interpolate({
-      inputRange: [SWIPE_THRESHOLD / 2, SWIPE_THRESHOLD],
+      inputRange: [this.props.swipeThreshold / 2, this.props.swipeThreshold],
       outputRange: [0, 1],
       extrapolate: "clamp",
     });
     let yupScale = pan.x.interpolate({
-      inputRange: [0, SWIPE_THRESHOLD],
+      inputRange: [0, this.props.swipeThreshold],
       outputRange: [0.5, 1],
       extrapolate: "clamp",
     });
-    let animatedYupStyles = {
-      transform: [{ scale: yupScale }],
-      opacity: yupOpacity,
-    };
 
-    if (this.props.renderYup) {
-      return this.props.renderYup(pan);
-    }
-
-    if (this.props.showYup) {
-      const inner = this.props.yupView ? (
-        this.props.yupView
-      ) : (
-        <Text style={[styles.yupText, this.props.yupTextStyle]}>
-          {this.props.yupText}
-        </Text>
-      );
-
-      return (
-        <Animated.View
-          style={[styles.yup, this.props.yupStyle, animatedYupStyles]}
-        >
-          {inner}
-        </Animated.View>
-      );
-    }
-
-    return null;
+    return this.renderAction(yupOpacity, yupScale, this.mergedActionsProps.yup);
   }
 
   render() {
     return (
       <View style={[styles.container, this.props.style]}>
         {this.props.stack ? this.renderStack() : this.renderCard()}
-        {this.renderNope()}
-        {this.renderMaybe()}
-        {this.renderYup()}
+        {this.mergedActionsProps.nope.show && this.renderNope()}
+        {this.props.hasMaybeAction &&
+          this.mergedActionsProps.maybe.show &&
+          this.renderMaybe()}
+        {this.mergedActionsProps.yup.show && this.renderYup()}
       </View>
     );
   }
 }
 
 SwipeCards.propTypes = {
-  cards: PropTypes.array,
+  cards: PropTypes.array.isRequired,
   hasMaybeAction: PropTypes.bool,
   loop: PropTypes.bool,
   onLoop: PropTypes.func,
@@ -671,60 +593,34 @@ SwipeCards.propTypes = {
   stackOffsetX: PropTypes.number,
   stackOffsetY: PropTypes.number,
   renderNoMoreCards: PropTypes.func,
-  showYup: PropTypes.bool,
-  showMaybe: PropTypes.bool,
-  showNope: PropTypes.bool,
-  handleYup: PropTypes.func,
-  handleMaybe: PropTypes.func,
-  handleNope: PropTypes.func,
-  yupText: PropTypes.string,
-  yupView: PropTypes.element,
-  yupStyle: ViewPropTypes.style,
-  renderYup: PropTypes.func,
-  maybeText: PropTypes.string,
-  maybeView: PropTypes.element,
-  maybeStyle: ViewPropTypes.style,
-  renderMaybe: PropTypes.func,
-  nopeText: PropTypes.string,
-  nopeView: PropTypes.element,
-  nopeStyle: ViewPropTypes.style,
-  renderNope: PropTypes.func,
+  actions: PropTypes.shape({
+    yup: actionShape,
+    nope: actionShape,
+    maybe: actionShape,
+  }),
   onClickHandler: PropTypes.func,
   onDragStart: PropTypes.func,
   onDragRelease: PropTypes.func,
   cardRemoved: PropTypes.func,
-  renderCard: PropTypes.func,
+  renderCard: PropTypes.func.isRequired,
   style: ViewPropTypes.style,
   dragY: PropTypes.bool,
   smoothTransition: PropTypes.bool,
   keyExtractor: PropTypes.func.isRequired,
+  swipeThreshold: PropTypes.number,
 };
 
 SwipeCards.defaultProps = {
   cards: [],
   hasMaybeAction: false,
   loop: false,
-  onLoop: () => null,
   allowGestureTermination: true,
   stack: false,
   stackDepth: 5,
   stackOffsetX: 25,
   stackOffsetY: 0,
-  showYup: true,
-  showMaybe: true,
-  showNope: true,
-  handleYup: (card) => null,
-  handleMaybe: (card) => null,
-  handleNope: (card) => null,
-  nopeText: "Nope!",
-  maybeText: "Maybe!",
-  yupText: "Yup!",
-  onClickHandler: () => {},
-  onDragStart: () => {},
-  onDragRelease: () => {},
-  cardRemoved: (ix) => null,
-  renderCard: (card) => null,
+  actions: defaultActionsProp,
   dragY: true,
   smoothTransition: false,
-  keyExtractor: undefined,
+  swipeThreshold: 120,
 };

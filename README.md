@@ -21,12 +21,12 @@ If you liked our contribution, please try out swaplet - the free home exchange p
 
 We would love to get your feedback!
 
-## 🎉 Version 0.3 is coming soon! 🎉
+## 🎉 Version 0.3 is HERE! 🎉
 There are major/breaking changes described in the readme, but they are for the better!
 
-+ Controll over swipe sensetivity
++ Control over swipe sensitivity
 + Better & more stable code
-+ Better props handeling
++ Better props handling
 
 We are very excited to get feedback from you...
 
@@ -94,9 +94,11 @@ export default function App() {
           renderCard={(cardData) => <Card data={cardData} />}
           keyExtractor={(cardData) => String(cardData.text)}
           renderNoMoreCards={() => <StatusCard text="No more cards..." />}
-          handleYup={handleYup}
-          handleNope={handleNope}
-          handleMaybe={handleMaybe}
+          actions={{
+            nope: { onAction: handleNope },
+            yup: { onAction: handleYup },
+            maybe: { onAction: handleMaybe },
+          }}
           hasMaybeAction={true}
 
           // If you want a stack of cards instead of one-per-one view, activate stack mode
