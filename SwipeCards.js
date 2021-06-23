@@ -2,12 +2,7 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {
-  View,
-  Animated,
-  PanResponder,
-  ViewPropTypes,
-} from "react-native";
+import { View, Animated, PanResponder, ViewPropTypes } from "react-native";
 import Defaults from "./Defaults";
 import clamp from "clamp";
 import { styles } from "./Styles";
@@ -148,7 +143,8 @@ export default class SwipeCards extends Component {
             return;
           }
 
-          this.props.cardRemoved(currentIndex[this.guid]);
+          if (this.props.cardRemoved)
+            this.props.cardRemoved(currentIndex[this.guid]);
 
           if (this.props.smoothTransition) {
             this._advanceState();
@@ -182,7 +178,7 @@ export default class SwipeCards extends Component {
 
       this.cardAnimation = null;
     });
-    this.props.cardRemoved(currentIndex[this.guid]);
+    if (this.props.cardRemoved) this.props.cardRemoved(currentIndex[this.guid]);
   }
 
   _forceUpSwipe() {
@@ -195,7 +191,7 @@ export default class SwipeCards extends Component {
 
       this.cardAnimation = null;
     });
-    this.props.cardRemoved(currentIndex[this.guid]);
+    if (this.props.cardRemoved) this.props.cardRemoved(currentIndex[this.guid]);
   }
 
   _forceRightSwipe() {
