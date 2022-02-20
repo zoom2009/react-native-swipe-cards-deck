@@ -33,6 +33,8 @@ const mergeActionProps = (actionsProps) => ({
   maybe: { ...defaultActionsProp.maybe, ...actionsProps.maybe },
 });
 
+const EmptyView = ({ children }) => <>{children}</>
+
 export default class SwipeCards extends Component {
   constructor(props) {
     super(props);
@@ -569,8 +571,8 @@ export default class SwipeCards extends Component {
 
   render() {
     const {
-      NopeContainer = () => <></>,
-      YupContainer = () => <></>,
+      NopeContainer = EmptyView,
+      YupContainer = EmptyView,
     } = this.props
     return (
       <View style={[styles.container, this.props.style]}>
