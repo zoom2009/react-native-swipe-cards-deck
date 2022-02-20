@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "transparent",
+    position: "relative",
   },
   action: {
     borderColor: "green",

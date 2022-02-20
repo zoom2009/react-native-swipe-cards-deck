@@ -568,14 +568,22 @@ export default class SwipeCards extends Component {
   }
 
   render() {
+    const {
+      NopeContainer = () => <></>,
+      YupContainer = () => <></>,
+    } = this.props
     return (
       <View style={[styles.container, this.props.style]}>
         {this.props.stack ? this.renderStack() : this.renderCard()}
-        {this.mergedActionsProps.nope.show && this.renderNope()}
+        <NopeContainer>
+          {this.mergedActionsProps.nope.show && this.renderNope()}
+        </NopeContainer>
         {this.props.hasMaybeAction &&
           this.mergedActionsProps.maybe.show &&
           this.renderMaybe()}
-        {this.mergedActionsProps.yup.show && this.renderYup()}
+        <YupContainer>
+          {this.mergedActionsProps.yup.show && this.renderYup()}
+        </YupContainer>
       </View>
     );
   }
